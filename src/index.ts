@@ -1,4 +1,4 @@
-import { Application, Loader, Sprite } from 'pixi.js' //importa esas librerias: application nos da el stage, y sprite es una imagen
+import { Application, Container, Loader, Sprite } from 'pixi.js' //importa esas librerias: application nos da el stage, y sprite es una imagen
 
 const app = new Application({ //Se crea una nueva instancia de PixiJS. Esta línea crea un objeto y toma otro de configuración como argumento
 	view: document.getElementById("pixi-canvas") as HTMLCanvasElement,
@@ -14,25 +14,62 @@ const app = new Application({ //Se crea una nueva instancia de PixiJS. Esta lín
 	height: 700, //establece el alto del lienzo de renderizado en píxeles.
 });
 
+window.addEventListener("resize", ()=>{ //que si se cambia el tamaño...
+	console.log("se resizeo"); //avisa
+
+	const X = window.innerWidth / app.screen.width; //valor x calculado
+	const Y = window.innerHeight / app.screen.height; //lo mismo pero con y
+	const escala =Math.min(X,Y);
+
+	const ancho = Math.round(app.screen.width * escala); //se calcula el tamaño del juego para adaptarlo
+	const alto = Math.round(app.screen.height * escala); //math.round es para que redondee el valor
+
+	const horizontal = Math.floor((window.innerWidth - ancho) /2); //se supone que es el espacio libre que queda entre la ventana y el juego
+	const vertical = Math.floor((window.innerHeight - alto)/2); //dividimos en 2 para repartir a los 2 lados
+
+	app.view.style.width = ancho + "px"; //hizo otra cosa que tampoco se jsjs
+	app.view.style.height = alto + "px";
+
+	app.view.style.marginLeft = horizontal + "px"; // puso los margenes todo alrededor para que quede centrado
+	app.view.style.marginRight = horizontal + "px";
+
+	app.view.style.marginTop = vertical + "px";
+	app.view.style.marginBottom = vertical + "px";
+});
+window.dispatchEvent(new Event("resize")); //obliga la funcion resize
+
 Loader.shared.add({url:"./la roca.jpeg", name: "sus"}); //lo que hace la biblioteca loader es precargar el archivo que querramos usar y de apso ponerle un nombre
+Loader.shared.add({url:"./cowboy.jpg", name: "gorro"});
 
 Loader.shared.onComplete.add(()=>{
 
-const clampy: Sprite = Sprite.from("sus"); //Se crea una nueva instancia de Sprite llamada "clampy" utilizando el método estático from de la clase Sprite. 
-//Este método carga una textura de una imagen especificada por su ruta y la asigna al sprite. Luego, se puede llamar directamente el archivo desde la carpeta
-//o llamarlo por su nombre asignado si es que lo hicimos
+	const therock: Sprite = Sprite.from("sus"); //Se crea un Sprite llamado "therock" utilizando el método estático from de la clase Sprite. 
+	//Este método carga una textura de una imagen especificada por su ruta y la asigna al sprite.
+	//llamo por su nombre asignado
 
-clampy.anchor.set(0.5); //establece el punto de anclaje del sprite "clampy", en este caso es el centro de la imagen o sprite
-//Esto significa que las transformaciones (como la rotación y la escala) se aplicarán en relación con este punto.
+	therock.x = 80; //establece el punto de anclaje del sprite "therock", en este caso en la esquinita
+	therock.y = 120;//Esto significa que las transformaciones (como la rotación y la escala) se aplicarán en relación con este punto.
 
-console.log("hola mundo!"); //escribo en la consola del navegador, se puede escribir directamente o llamar a un dato para que lo imprima
+	therock.scale.x = 0.6;
+	therock.scale.y = 0.6;
 
-clampy.x = app.screen.width / 2; //Se establece la posición horizontal del sprite "clampy" en el centro del lienzo de renderizado. 
-//app.screen.width devuelve el ancho del lienzo, y dividiéndolo por 2, se coloca el sprite en el centro horizontalmente.
-clampy.y = app.screen.height / 2; //lo mismo que lo anterior pero en vertical
+	//therock.rotation = -45;
 
-app.stage.addChild(clampy); //Se agrega el sprite "clampy" al contenedor principal de la aplicación PixiJS, que es el stage. 
-//Esto significa que el sprite será renderizado y visible en la aplicación.
+	const hat: Sprite = Sprite.from("gorro");
+
+	hat.position.set (-90,-150);
+
+	hat.scale.set (0.6,0.6);
+	
+	const therockcowboy: Container = new Container();
+
+	therockcowboy.addChild(therock); //Se agrega el sprite "therock" al contenedor principal de la aplicación PixiJS, que es el stage. 
+	//Esto significa que el sprite será renderizado y visible en la aplicación.
+	therockcowboy.addChild(hat);
+
+	therockcowboy.scale.set(1.2,1.2);
+
+	app.stage.addChild(therockcowboy);
 })
 
 Loader.shared.load();
