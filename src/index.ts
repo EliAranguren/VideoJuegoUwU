@@ -5,6 +5,8 @@ import { UIdemo } from './Escenario/UIdemo';
 import { Teclado } from './Utilidades/Teclado';
 import { Jugador } from './Escenario/Jugador';
 
+export const Alto = 720;
+export const Ancho = 1280;
 const app = new Application({ //Se crea una nueva instancia de PixiJS. Esta línea crea un objeto y toma otro de configuración como argumento
 	view: document.getElementById("pixi-canvas") as HTMLCanvasElement,
 	//view especifica el elemento HTMLCanvasElement que se utilizará como lienzo de renderizado para la aplicación PixiJS. 
@@ -15,8 +17,8 @@ const app = new Application({ //Se crea una nueva instancia de PixiJS. Esta lín
 	//Cuando se establece en true, PixiJS ajustará automáticamente la densidad de píxeles 
 	backgroundColor: 0x000000, //establece el color de fondo del lienzo de renderizado. En este caso, se establece en un color utilizando la notación hexadecimal.
 	//pero se puede hacer con "color deseado" o con "rgb(0,0,0)"
-	width: 1280, //establece el ancho del lienzo de renderizado en píxeles.
-	height: 720, //establece el alto del lienzo de renderizado en píxeles.
+	width: Ancho, //establece el ancho del lienzo de renderizado en píxeles.
+	height: Alto, //establece el alto del lienzo de renderizado en píxeles.
 });
 
 Teclado.iniciado();
