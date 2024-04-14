@@ -1,6 +1,7 @@
 import { AnimatedSprite, Container, Texture} from "pixi.js";
+import { Actualizable } from "../Utilidades/Actualizable";
 
-export class Jugador extends Container{
+export class Jugador extends Container implements Actualizable{
     constructor(){
         super();
         const susanimado: AnimatedSprite = new AnimatedSprite(
@@ -18,11 +19,8 @@ export class Jugador extends Container{
         susanimado.animationSpeed = 0.5;
         this.addChild(susanimado);
     }
-
-    if (Teclado.state.get("KeyF")) {
-        this.susanimado.x++;
+    public update (_variaciontiempo: number, variacionframes?: number | undefined): void {
+        this.susanimado.update(variacionframes);
     }
 
-    
-    
 }

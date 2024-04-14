@@ -1,8 +1,9 @@
-import { Application, Loader } from 'pixi.js'; //importa esas librerias: application nos da el stage, y sprite es una imagen
+import { Application, Loader, Ticker } from 'pixi.js'; //importa esas librerias: application nos da el stage, y sprite es una imagen
 import { assets } from './assets';
 import { Escena } from './Escenario/Escena';
 import { UIdemo } from './Escenario/UIdemo';
 import { Teclado } from './Utilidades/Teclado';
+import { Jugador } from './Escenario/Jugador';
 
 const app = new Application({ //Se crea una nueva instancia de PixiJS. Esta línea crea un objeto y toma otro de configuración como argumento
 	view: document.getElementById("pixi-canvas") as HTMLCanvasElement,
@@ -49,8 +50,15 @@ Loader.shared.add(assets);
 Loader.shared.onComplete.add(()=>{
 	const miescena: Escena = new Escena();
 	app.stage.addChild(miescena);
-	const UIDemo: Escena = new UIdemo();
-	app.stage.addChild(UIDemo);
-})
+
+	const uidemo = new UIdemo();
+	app.stage.addChild(uidemo);
+
+	const jugadorticker = new Jugador();
+	app.stage.addChild(jugadorticker);
+	Ticker.shared.add(function(variacionframes){
+		jugadorticker.update(Ticker.shared.deltaMS, variacionframes);
+	})
+});
 
 Loader.shared.load();

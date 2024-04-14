@@ -19,8 +19,5 @@ export class Teclado {
 
     private static teclasoltada(evento:KeyboardEvent) {
         Teclado.state.set(evento.code,false);
-}
-
-
-
+    }
 }

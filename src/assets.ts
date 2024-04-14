@@ -1,7 +1,4 @@
-export const assets = [{url:"./la roca.jpeg", name: "rock"},
-{url:"./cowboy.jpg", name: "gorro"},
-{url:"./amogus.png", name: "sus"},
-{url:"./caballero.png", name: "bolainas"},
+export const assets = [
 {url:"./Twerk/am 1.PNG", name: "1"}, //llamado de una imagen dentro de una carpeta
 {url:"./Twerk/am 2.PNG", name: "2"},
 {url:"./Twerk/am 3.PNG", name: "3"},
