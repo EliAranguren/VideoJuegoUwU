@@ -2,9 +2,13 @@ import { AnimatedSprite, Container, Texture} from "pixi.js";
 import { Actualizable } from "../Utilidades/Actualizable";
 
 export class Jugador extends Container implements Actualizable{
+
+    private susanimado: AnimatedSprite;
+
     constructor(){
         super();
-        const susanimado: AnimatedSprite = new AnimatedSprite(
+
+        this.susanimado = new AnimatedSprite(
             [
                 Texture.from("1"),
                 Texture.from("2"),
@@ -15,12 +19,15 @@ export class Jugador extends Container implements Actualizable{
             true //es decirle: si porfa reproducilo booleanamente
         );
 
-        susanimado.play(); //RECORDAR METERLE PLAY
-        susanimado.animationSpeed = 0.5;
-        this.addChild(susanimado);
+        this.susanimado.play(); //RECORDAR METERLE PLAY
+        this.susanimado.animationSpeed = 0.3;
+        this.susanimado.scale.set(0.3);
+        this.addChild(this.susanimado);   
     }
-    public update (_variaciontiempo: number, variacionframes?: number | undefined): void {
+
+    public update (_variaciontiempo: number, variacionframes: number): void {
         this.susanimado.update(variacionframes);
+        //this.susanimado.x ++; //esto es movimiento en x
     }
 
 }
