@@ -21,10 +21,10 @@ export class Prota extends Fisica {
 
         this.susanimado.play(); //RECORDAR METERLE PLAY
         this.susanimado.animationSpeed = 0.3;
-        this.susanimado.anchor.set(1,1);
+        this.susanimado.anchor.set(0.5,1);
         this.susanimado.scale.set(0.3);
 
-        this.velocidad.x = 5;
+        this.velocidad.x = 0;
         this.velocidad.y = 0;
         this.aceleracion.y = Prota.GRAVEDAD;
         this.susanimado.tint = 0x909090;
