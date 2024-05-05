@@ -1,9 +1,9 @@
 import { AnimatedSprite, Texture } from "pixi.js";
-import { Fisica } from "./Fisica";
+import { Fisica } from "../Juego/Fisica";
 
 export class Prota extends Fisica {
     private susanimado: AnimatedSprite;
-    private static readonly GRAVEDAD = 0.1;
+    private static readonly GRAVEDAD = 0;
 
     constructor(){
         super();
@@ -13,8 +13,7 @@ export class Prota extends Fisica {
                 Texture.from("1"),
                 Texture.from("2"),
                 Texture.from("3"),
-                Texture.from("4"),
-                Texture.from("5")
+                Texture.from("4")
             ], 
             true //es decirle: si porfa reproducilo booleanamente
         );
