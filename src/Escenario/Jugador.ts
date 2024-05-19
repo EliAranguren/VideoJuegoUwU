@@ -5,19 +5,36 @@ import { Prota } from "./Prota";
 import { Teclado } from "../Utilidades/Teclado";
 import { colision } from "../Juego/Hitbox";
 import { Faro } from "./Faro";
+import { Casetas } from "./Casetas";
+import { Escondite } from "./Escondite";
+//import { ParqueDiversiones } from "./ParqueDiversiones";
 
 export class Jugador extends Container implements Actualizable{
     private protagonista: Prota;
-    private luz : Faro;
-    private static velmov= 5;
+    private Mundo: Container;
+    private luces: Faro = new Faro;
+    private tiendas: Casetas = new Casetas;
+    private basura: Escondite = new Escondite;
+    private static velmov= 20;
     AnimatedSprite: any;
-
+    
     constructor(){
         super();
 
-        this.luz = new Faro;
+        this.Mundo = new Container();
+
+        /*const piso = new TilingSprite (Texture.from ("piso"), Ancho*6, Alto);
+        const fondo = new TilingSprite (Texture.from ("fondo"), Ancho*6, Alto);
+        const cerca = new TilingSprite (Texture.from ("cerca"), Ancho*6, Alto);
+        this.Mundo.addChild(piso,fondo,cerca);*/
+
+        this.Mundo.addChild(this.tiendas);
+        this.Mundo.addChild(this.luces);
+        this.Mundo.addChild(this.basura);
+
         this.protagonista = new Prota;
-        this.addChild(this.protagonista);
+        this.Mundo.addChild(this.protagonista);
+        this.addChild(this.Mundo)  
     }
 
     public update (variaciontiempo: number, variacionframes: number): void {
@@ -43,8 +60,8 @@ export class Jugador extends Container implements Actualizable{
             this.protagonista.velocidad.y = 0;
         }
 
-        if (this.protagonista.x > Ancho){ //delimito los bordes horizontales de la pantalla
-            this.protagonista.x = Ancho;
+        if (this.protagonista.x > 6*Ancho){ //delimito los bordes horizontales de la pantalla
+            this.protagonista.x = 6*Ancho;
         } else if (this.protagonista.x < 0) {
             this.protagonista.x = 0;
         } 
@@ -55,26 +72,23 @@ export class Jugador extends Container implements Actualizable{
             this.protagonista.y = (Alto-130);
         }
 
-        const sobreposicion = colision(this.protagonista, this.luz);
-        if (sobreposicion != null){ //aca defino que hacer ante la colision
-            
-            if (sobreposicion.width < sobreposicion.height) { //cuando la sobreposicion sea mas notable en la altura
+        const colisionTiendas = colision(this.protagonista, this.tiendas); //cree una pa cada una porque no funcaba
+        const colisionLuces = colision(this.protagonista, this.luces);
+        const colisionBasura = colision(this.protagonista, this.basura);
 
-                if (this.protagonista.x > this.luz.x){
-                    this.protagonista.x += sobreposicion.width; //limita derecha
-                } else if (this.protagonista.x < this.luz.x){
-                    this.protagonista.x -= sobreposicion.width; //limita izquierda
-                }
-                
-            } else {
-
-                if (this.protagonista.y > this.luz.y){
-                    this.protagonista.y -= sobreposicion.height; //limita arriba
-                } else if (this.protagonista.y < this.luz.y){
-                    this.protagonista.y += sobreposicion.height; //limita abajo
-                }
-            } 
+        if (colisionTiendas != null) {
+            this.protagonista.separar(colisionTiendas, this.tiendas.position);
         }
-    }
+        if (colisionLuces != null) {
+            this.protagonista.separar(colisionLuces, this.luces.position);
+        }
+        if (colisionBasura != null) {
+            this.protagonista.separar(colisionBasura, this.basura.position);
+        }
 
+        if (this.protagonista.x > Ancho/3){
+            this.Mundo.x = -this.protagonista.x * this.worldTransform.a + Ancho/3;
+        }
+        
+    }
 }

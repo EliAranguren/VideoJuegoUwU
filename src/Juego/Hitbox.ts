@@ -4,7 +4,8 @@ export interface Hitbox {
 
     damelimites(): Rectangle;
 }
- export function colision (A:Hitbox, B: Hitbox): Rectangle | null {
+
+export function colision (A:Hitbox, B: Hitbox): Rectangle | null {
 
     const rectA = A.damelimites();
     const rectB = B.damelimites();
@@ -27,5 +28,4 @@ export interface Hitbox {
     } else {
         return null;
     }
-
- }
+}

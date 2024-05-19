@@ -4,6 +4,7 @@ import { Hitbox } from "../Juego/Hitbox";
 export class Faro extends Container implements Hitbox{
     hitbox: any;
     private faro: Sprite = Sprite.from("luz");
+
     constructor(){
         super();
         
@@ -13,9 +14,9 @@ export class Faro extends Container implements Hitbox{
 
         this.hitbox = new Graphics();
         this.hitbox.beginFill(0xFF0000, 0.5);
-        this.hitbox.drawRect(0,0,50,20);
+        this.hitbox.drawRect(0,0,50,40);
         this.hitbox.endFill();
-        this.hitbox.position.set(280,800);
+        this.hitbox.position.set(280,770);
 
         this.addChild(this.faro);
         this.faro.addChild(this.hitbox);

@@ -1,8 +1,9 @@
-import { AnimatedSprite, Graphics, Rectangle, Texture } from "pixi.js";
+import { AnimatedSprite, Graphics, ObservablePoint, Rectangle, Texture } from "pixi.js";
 import { Fisica } from "../Juego/Fisica";
 import { Hitbox } from "../Juego/Hitbox";
 
 export class Prota extends Fisica implements Hitbox {
+
     private susanimado: AnimatedSprite;
     private static readonly GRAVEDAD = 0;
     AnimatedSprite: any;
@@ -44,5 +45,22 @@ export class Prota extends Fisica implements Hitbox {
     public damelimites(): Rectangle{
 
         return this.hitbox.getBounds(); //me da la posicion del rectangle en coordenadas de la pantalla
+    }
+
+    public separar(sobreposicion: Rectangle, objeto: ObservablePoint<any>) {
+        if (sobreposicion.width < sobreposicion.height) { //cuando la sobreposicion sea mas notable en la altura, corrijo anchura
+            if (this.x > objeto.x){
+                this.x += sobreposicion.width; //limita derecha si es +, izquierda si es -
+            } else if (this.x < objeto.x){
+                this.x -= sobreposicion.width; // se supone que limita izquierda
+            }
+                
+        } else {
+            if (this.y > objeto.y){
+                this.y += sobreposicion.height; //si es - limita arriba, si es + limita abajo
+            } else if (this.y < objeto.y){
+                this.y += sobreposicion.height; //se supone que limita abajo
+            }
+        }
     }
 }
