@@ -1,6 +1,7 @@
 import { AnimatedSprite, Graphics, ObservablePoint, Rectangle, Texture } from "pixi.js";
 import { Fisica } from "../Juego/Fisica";
 import { Hitbox } from "../Juego/Hitbox";
+//import { Alto } from "..";
 
 export class Prota extends Fisica implements Hitbox {
 

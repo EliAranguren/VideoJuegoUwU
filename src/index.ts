@@ -1,6 +1,5 @@
 import { Application, Loader, Ticker } from 'pixi.js'; //importa esas librerias: application nos da el stage, y sprite es una imagen
 import { assets } from './assets';
-import { Escena } from './Escenario/Escena';
 import { UIdemo } from './Juego/UIdemo';
 import { Teclado } from './Utilidades/Teclado';
 import { Jugador } from './Escenario/Jugador';
@@ -50,9 +49,6 @@ window.dispatchEvent(new Event("resize")); //obliga la funcion resize
 Loader.shared.add(assets);
 
 Loader.shared.onComplete.add(()=>{
-	const miescena: Escena = new Escena();
-	app.stage.addChild(miescena);
-
 	const uidemo = new UIdemo();
 	app.stage.addChild(uidemo);
 

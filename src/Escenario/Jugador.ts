@@ -7,34 +7,42 @@ import { colision } from "../Juego/Hitbox";
 import { Faro } from "./Faro";
 import { Casetas } from "./Casetas";
 import { Escondite } from "./Escondite";
-//import { ParqueDiversiones } from "./ParqueDiversiones";
+import { ParqueDiversiones } from "./ParqueDiversiones";
 
 export class Jugador extends Container implements Actualizable{
     private protagonista: Prota;
     private Mundo: Container;
     private luces: Faro = new Faro;
     private tiendas: Casetas = new Casetas;
+    private tienda1 = new Casetas();
+    private tienda2 = new Casetas();
+    private tienda3 = new Casetas();
     private basura: Escondite = new Escondite;
     private static velmov= 20;
+    private static limiteMundo= 6;
     AnimatedSprite: any;
     
     constructor(){
         super();
 
-        this.Mundo = new Container();
-
-        /*const piso = new TilingSprite (Texture.from ("piso"), Ancho*6, Alto);
-        const fondo = new TilingSprite (Texture.from ("fondo"), Ancho*6, Alto);
-        const cerca = new TilingSprite (Texture.from ("cerca"), Ancho*6, Alto);
-        this.Mundo.addChild(piso,fondo,cerca);*/
-
-        this.Mundo.addChild(this.tiendas);
-        this.Mundo.addChild(this.luces);
-        this.Mundo.addChild(this.basura);
-
+        this.Mundo = new ParqueDiversiones();
         this.protagonista = new Prota;
+
+        this.Mundo.addChild(this.tiendas,this.luces,this.basura);  
+        
+        this.tienda1.position.x = (1500); //Dios me ayude a que esto funcione
+        this.addChild(this.tienda1); //me ayudo :) lo dejo feo nomas
+
+        this.tienda2.position.x = (3500);
+        this.addChild(this.tienda2);
+
+        this.tienda3.position.x = (6000);
+        this.addChild(this.tienda3);
+
+        this.Mundo.addChild(this.tienda1,this.tienda2,this.tienda3);
         this.Mundo.addChild(this.protagonista);
-        this.addChild(this.Mundo)  
+
+        this.addChild(this.Mundo);
     }
 
     public update (variaciontiempo: number, variacionframes: number): void {
@@ -60,10 +68,10 @@ export class Jugador extends Container implements Actualizable{
             this.protagonista.velocidad.y = 0;
         }
 
-        if (this.protagonista.x > 6*Ancho){ //delimito los bordes horizontales de la pantalla
-            this.protagonista.x = 6*Ancho;
-        } else if (this.protagonista.x < 0) {
-            this.protagonista.x = 0;
+        if (this.protagonista.x > Jugador.limiteMundo*Ancho - 50){ //delimito los bordes horizontales de la pantalla
+            this.protagonista.x = Jugador.limiteMundo*Ancho - 50; //es -50 para que el prota no atraviese la pantalla
+        } else if (this.protagonista.x < 50) {
+            this.protagonista.x = 50;
         } 
 
         if (this.protagonista.y > Alto){ //delimito los bordes verticales correspondientes al piso
@@ -75,7 +83,19 @@ export class Jugador extends Container implements Actualizable{
         const colisionTiendas = colision(this.protagonista, this.tiendas); //cree una pa cada una porque no funcaba
         const colisionLuces = colision(this.protagonista, this.luces);
         const colisionBasura = colision(this.protagonista, this.basura);
+        const colisionTienda1 = colision(this.protagonista, this.tienda1);
+        const colisionTienda2 = colision(this.protagonista, this.tienda2);
+        const colisionTienda3 = colision(this.protagonista, this.tienda2);
 
+        if (colisionTienda1 != null) {
+            this.protagonista.separar(colisionTienda1, this.tienda1.position);
+        }
+        if (colisionTienda2 != null) {
+            this.protagonista.separar(colisionTienda2, this.tienda2.position);
+        }
+        if (colisionTienda3 != null) {
+            this.protagonista.separar(colisionTienda3, this.tienda3.position);
+        }
         if (colisionTiendas != null) {
             this.protagonista.separar(colisionTiendas, this.tiendas.position);
         }
@@ -86,9 +106,12 @@ export class Jugador extends Container implements Actualizable{
             this.protagonista.separar(colisionBasura, this.basura.position);
         }
 
-        if (this.protagonista.x > Ancho/3){
-            this.Mundo.x = -this.protagonista.x * this.worldTransform.a + Ancho/3;
+        if (this.protagonista.x > Ancho/2 && this.protagonista.x < (Ancho*(Jugador.limiteMundo- 1/2))){ 
+            //cuando llegue al tercio de la pantalla y mientras este antes del limite empezara a moverse el mundo a la par del prota            
+            this.Mundo.x = -this.protagonista.x * this.worldTransform.a + Ancho/2;
+        } else if (this.protagonista.x >= (Ancho*(Jugador.limiteMundo - 1/2))){
+            //si llega al limite del mapa, que pare de mover el mundo
+            this.Mundo.x = -(Ancho*(Jugador.limiteMundo- 1/2) - Ancho/2);
         }
-        
     }
 }
