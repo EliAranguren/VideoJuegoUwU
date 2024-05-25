@@ -1,9 +1,8 @@
-import { Application, Loader, Ticker } from 'pixi.js'; //importa esas librerias: application nos da el stage, y sprite es una imagen
+import { Loader, Ticker } from 'pixi.js'; //importa esas librerias: application nos da el stage, y sprite es una imagen
 import { assets } from './assets';
 //import { UIdemo } from './Juego/UIdemo';
-import { Teclado } from './Utilidades/Teclado';
 import { Jugador } from './Escenario/Jugador';
-
+/*
 export const Alto = 720;
 export const Ancho = 1280;
 const app = new Application({ //Se crea una nueva instancia de PixiJS. Esta línea crea un objeto y toma otro de configuración como argumento
@@ -45,7 +44,7 @@ window.addEventListener("resize", ()=>{ //que si se cambia el tamaño...
 	app.view.style.marginBottom = vertical + "px";
 });
 window.dispatchEvent(new Event("resize")); //obliga la funcion resize
-
+*/
 Loader.shared.add(assets);
 
 Loader.shared.onComplete.add(()=>{
