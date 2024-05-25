@@ -5,7 +5,7 @@ import { Hitbox } from "../Juego/Hitbox";
 export class Prota extends Fisica implements Hitbox {
 
     private susanimado: AnimatedSprite;
-    private static readonly GRAVEDAD = 0;
+    //private static readonly GRAVEDAD = 0;
     private hitbox: Graphics;
 
     constructor(){
@@ -28,8 +28,8 @@ export class Prota extends Fisica implements Hitbox {
 
         this.velocidad.x = 0;
         this.velocidad.y = 0;
-        this.aceleracion.y = Prota.GRAVEDAD;
-        this.susanimado.tint = 0x909090;
+        //this.aceleracion.y = Prota.GRAVEDAD;
+        //this.susanimado.tint = 0x909090;
 
         this.hitbox = new Graphics();
         this.hitbox.beginFill(0xFF0000, 0.5);
@@ -42,7 +42,6 @@ export class Prota extends Fisica implements Hitbox {
     }
 
     public damelimites(): Rectangle{
-
         return this.hitbox.getBounds(); //me da la posicion del rectangle en coordenadas de la pantalla
     }
 
@@ -79,15 +78,12 @@ export class Prota extends Fisica implements Hitbox {
         }
     }
 
-    
     public stopAnimation(): void { // metodos para controlar la animación
         this.susanimado.stop();
-    }
-    
+    }    
     public playAnimation(): void {
         this.susanimado.play();
-    }
-    
+    }   
     public setStaticFrame(frameIndex: number): void {
         this.susanimado.gotoAndStop(frameIndex);
     }

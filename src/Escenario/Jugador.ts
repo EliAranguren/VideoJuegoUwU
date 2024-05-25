@@ -1,6 +1,5 @@
 import { Container } from "pixi.js";
 import { Actualizable } from "../Utilidades/Actualizable";
-import { Alto, Ancho } from "..";
 import { Prota } from "./Prota";
 import { Teclado } from "../Utilidades/Teclado";
 import { colision } from "../Juego/Hitbox";
@@ -8,15 +7,20 @@ import { Faro } from "./Faro";
 import { Casetas } from "./Casetas";
 import { Escondite } from "./Escondite";
 import { ParqueDiversiones } from "./ParqueDiversiones";
+import { EscenaAbstracta } from "../Utilidades/EscenaAbstracta";
+import { ManagerEscenas } from "../Utilidades/ManagerEscenas";
 
-export class Jugador extends Container implements Actualizable {
+export class Jugador extends EscenaAbstracta implements Actualizable {
+
+    public override actualizar(): void {}
+    
     private protagonista: Prota;
     private Mundo: Container;
-    private luces: Faro[] = []; //como voy a hacer varios, me conviene crear un string
-    private tiendas: Casetas[] = [];
+    private luces: Faro[] = []; //como voy a hacer varios de estos 3
+    private tiendas: Casetas[] = []; //me conviene crear un string
     private basuras: Escondite[] = [];
-    private static velmov = 20;
-    private static limiteMundo = 6;
+    private static velmov = 20; //velocidad de movimiento del prota
+    private static limiteMundo = 6; //ponele que son la cantidad de "pantallas" que puse
 
     constructor() {
         super();
@@ -78,8 +82,8 @@ export class Jugador extends Container implements Actualizable {
         }
 
         // limitar movimiento horizontales y verticales del jugador
-        this.protagonista.x = Math.max(50, Math.min(this.protagonista.x, Jugador.limiteMundo * Ancho - 50));
-        this.protagonista.y = Math.max(Alto - 130, Math.min(this.protagonista.y, Alto));
+        this.protagonista.x = Math.max(50, Math.min(this.protagonista.x, Jugador.limiteMundo * ManagerEscenas.Ancho - 50));
+        this.protagonista.y = Math.max(ManagerEscenas.Alto - 130, Math.min(this.protagonista.y, ManagerEscenas.Alto));
  
         //guardo los objetos colisionables en un string para analizarlos con el for
         const objetosColisionables = [...this.tiendas, ...this.luces, ...this.basuras];
@@ -91,12 +95,12 @@ export class Jugador extends Container implements Actualizable {
             }
         }
 
-        if (this.protagonista.x > Ancho / 2 && this.protagonista.x < Ancho * (Jugador.limiteMundo - 1 / 2)) {
+        if (this.protagonista.x > ManagerEscenas.Ancho / 2 && this.protagonista.x < ManagerEscenas.Ancho * (Jugador.limiteMundo - 1 / 2)) {
             // movimientos del mundo con respecto al jugador
-            this.Mundo.x = -this.protagonista.x * this.worldTransform.a + Ancho / 2;
-        } else if (this.protagonista.x >= Ancho * (Jugador.limiteMundo - 1 / 2)) {
+            this.Mundo.x = -this.protagonista.x * this.worldTransform.a + ManagerEscenas.Ancho / 2;
+        } else if (this.protagonista.x >= ManagerEscenas.Ancho * (Jugador.limiteMundo - 1 / 2)) {
             //en su momento si sabia de que eran estos numreos, lastima no los comente xd
-            this.Mundo.x = -(Ancho * (Jugador.limiteMundo - 1 / 2) - Ancho / 2);
+            this.Mundo.x = -(ManagerEscenas.Ancho * (Jugador.limiteMundo - 1 / 2) - ManagerEscenas.Ancho / 2);
         }
   
         if (this.protagonista.velocidad.x === 0 && this.protagonista.velocidad.y === 0) {

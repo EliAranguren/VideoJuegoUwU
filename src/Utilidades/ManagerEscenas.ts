@@ -1,11 +1,13 @@
 import { Application, Ticker } from "pixi.js";
 import { Teclado } from "./Teclado";
 import { EscenaAbstracta } from "./EscenaAbstracta";
+import { Group } from "tweedle.js";
 
-export namespace ManagerEscenas {
+export namespace ManagerEscenas{
 
     export const Alto = 720;
     export const Ancho = 1280;
+    
     let escenaActual: EscenaAbstracta;
     let app: Application;
 
@@ -50,21 +52,19 @@ export namespace ManagerEscenas {
         });
         
         window.dispatchEvent(new Event("resize")); //obliga la funcion resize
-
         Ticker.shared.add(actualizar);
     }
 
-    export function cambiarEscena (laNueva:EscenaAbstracta){ //tiene que destruir la escena anterior y crear la nueva
-
-        if (escenaActual){
+    export function cambiarEscena (laNueva:EscenaAbstracta){ 
+        if (escenaActual){ //tiene que destruir la escena anterior 
             escenaActual.destroy();
         }
-        escenaActual = laNueva;
-        app.stage.addChild(laNueva);
+        escenaActual = laNueva; //creo una nueva escena que va a pasar a ser la actual
+        app.stage.addChild(laNueva); //la muestro
     }
 
     function actualizar(framepas:number){
-        Group.shared.actualizar();
+        Group.shared.update();
         escenaActual?.actualizar(framepas, Ticker.shared.elapsedMS);
     }
 }
