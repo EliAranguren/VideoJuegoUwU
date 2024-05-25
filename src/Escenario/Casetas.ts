@@ -8,7 +8,7 @@ export class Casetas extends Container implements Hitbox{
     constructor(){
         super();
 
-        this.caseta.position.set (50,230);
+        this.caseta.position.set (10,230);
 		this.caseta.scale.set (0.6,0.6);
 
         this.hitbox = new Graphics();

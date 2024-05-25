@@ -8,7 +8,7 @@ export class Faro extends Container implements Hitbox{
     constructor(){
         super();
         
-        this.faro.position.set (530,-60);
+        this.faro.position.set (200,-60);
 		this.faro.scale.set (0.8,0.8);
         this.faro.rotation = 0.04;
 

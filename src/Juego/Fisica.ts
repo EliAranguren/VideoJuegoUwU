@@ -1,7 +1,7 @@
 import { Container, Point } from "pixi.js";
 
 export class Fisica extends Container {
-    public velocidad: Point = new Point();
+    public velocidad: Point = new Point(); //esto no uso porque el pibe no salta por ahora
     public aceleracion: Point = new Point();
 
     public update(variacionseg:number){

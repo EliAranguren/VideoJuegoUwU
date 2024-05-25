@@ -1,13 +1,11 @@
 import { Container, Texture, TilingSprite } from "pixi.js";
 import { Alto, Ancho } from "..";
+import { sound } from "@pixi/sound";
 
 export class ParqueDiversiones extends Container{
 	
     constructor(){
         super();
-        /*const fondo: Sprite = Sprite.from("fondo");
-        const piso: Sprite = Sprite.from("piso");
-		const cerca: Sprite = Sprite.from("cerca");*/
 
 		const piso = new TilingSprite (Texture.from ("piso"), Ancho*10, Alto*2); //el alto lo puse *2 porque si no me cortaba la mitad de las ilustraciones
         const fondo = new TilingSprite (Texture.from ("fondo"), Ancho*10, Alto*2); //el ancho es *10 para que cubra todo mi escenario
@@ -21,5 +19,6 @@ export class ParqueDiversiones extends Container{
 		cerca.scale.set (0.671);
 
 		this.addChild(piso,fondo,cerca);
+		sound.play("Circus", {loop:true, volume:0.2});
     }
 }

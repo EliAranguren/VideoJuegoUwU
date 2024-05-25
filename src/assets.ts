@@ -11,4 +11,6 @@ export const assets = [
 {url:"./Escenas/cerca parque de diversiones.png", name: "cerca"},
 {url:"./Escenas/lluvia y viento.jpg", name: "inicio1"},
 {url:"./Escenas/Faro.png", name: "luz"},
+
+{url:"./Sonidos/The Clown's Nightmare.mp3", name: "Circus"}, //llamo musica
 ];

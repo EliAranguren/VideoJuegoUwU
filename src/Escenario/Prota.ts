@@ -1,13 +1,11 @@
 import { AnimatedSprite, Graphics, ObservablePoint, Rectangle, Texture } from "pixi.js";
 import { Fisica } from "../Juego/Fisica";
 import { Hitbox } from "../Juego/Hitbox";
-//import { Alto } from "..";
 
 export class Prota extends Fisica implements Hitbox {
 
     private susanimado: AnimatedSprite;
     private static readonly GRAVEDAD = 0;
-    AnimatedSprite: any;
     private hitbox: Graphics;
 
     constructor(){
@@ -48,7 +46,7 @@ export class Prota extends Fisica implements Hitbox {
         return this.hitbox.getBounds(); //me da la posicion del rectangle en coordenadas de la pantalla
     }
 
-    public separar(sobreposicion: Rectangle, objeto: ObservablePoint<any>) {
+    /*public separar(sobreposicion: Rectangle, objeto: ObservablePoint<any>) {
         if (sobreposicion.width < sobreposicion.height) { //cuando la sobreposicion sea mas notable en la altura, corrijo anchura
             if (this.x > objeto.x){
                 this.x += sobreposicion.width; //limita derecha si es +, izquierda si es -
@@ -63,5 +61,34 @@ export class Prota extends Fisica implements Hitbox {
                 this.y += sobreposicion.height; //se supone que limita abajo
             }
         }
+    }*/
+
+    public separar(sobreposicion: Rectangle, objeto: ObservablePoint<any>) {
+        if (sobreposicion.width < sobreposicion.height) {
+            if (this.x > objeto.x) {
+                this.x += sobreposicion.width;
+            } else {
+                this.x -= sobreposicion.width;
+            }
+        } else {
+            if (this.y > objeto.y) {
+                this.y += sobreposicion.height;
+            } else {
+                this.y -= sobreposicion.height;
+            }
+        }
+    }
+
+    
+    public stopAnimation(): void { // metodos para controlar la animación
+        this.susanimado.stop();
+    }
+    
+    public playAnimation(): void {
+        this.susanimado.play();
+    }
+    
+    public setStaticFrame(frameIndex: number): void {
+        this.susanimado.gotoAndStop(frameIndex);
     }
 }
