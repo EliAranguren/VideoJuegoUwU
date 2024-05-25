@@ -3,7 +3,7 @@ import { Teclado } from "./Teclado";
 import { EscenaAbstracta } from "./EscenaAbstracta";
 import { Group } from "tweedle.js";
 
-export namespace ManagerEscenas{
+export namespace ManagerEscenas {
 
     export const Alto = 720;
     export const Ancho = 1280;
@@ -61,10 +61,14 @@ export namespace ManagerEscenas{
         }
         escenaActual = laNueva; //creo una nueva escena que va a pasar a ser la actual
         app.stage.addChild(laNueva); //la muestro
+        if (escenaActual === laNueva){
+            console.log("La escena actual es la nueva papirrium");
+        }
     }
 
     function actualizar(framepas:number){
         Group.shared.update();
-        escenaActual?.actualizar(framepas, Ticker.shared.elapsedMS);
+        escenaActual?.actualizar(Ticker.shared.elapsedMS, framepas); //eta no anda
+        console.log("entro");
     }
 }
