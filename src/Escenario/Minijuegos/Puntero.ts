@@ -24,13 +24,13 @@ export class Puntero extends Fisica implements Hitbox {
         this.velocidad.y = 0;
 
         this.hitbox = new Graphics();
-        this.hitbox.beginFill(0xFF0000, 0.5);
-        this.hitbox.drawRect(0,0,40,40);
+        this.hitbox.beginFill(0x000000, 0.000001);
+        this.hitbox.drawRect(0,0,15,15);
         this.hitbox.endFill();
-        this.hitbox.position.set(-20,-20);
+        this.hitbox.position.set(-7.5,-7.5);
 
         this.addChild(this.mirilla);
-        this.mirilla.addChild(this.hitbox);
+        this.addChild(this.hitbox);
     }
     
     damelimites(): Rectangle {

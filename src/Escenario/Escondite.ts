@@ -12,7 +12,7 @@ export class Escondite extends Container implements Hitbox{
 		this.escondite.scale.set (0.6,0.6);
 
         this.hitbox = new Graphics();
-        this.hitbox.beginFill(0xFF0000, 0.5);
+        this.hitbox.beginFill(0x000000, 0.000001);
         this.hitbox.drawRect(0,0,350,150);
         this.hitbox.endFill();
         this.hitbox.position.set(180,200);

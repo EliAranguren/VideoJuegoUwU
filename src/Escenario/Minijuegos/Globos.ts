@@ -15,8 +15,8 @@ export class Globos extends Fisica implements Hitbox {
 		this.gl1.scale.set (0.75,0.75);
 
         this.hitbox = new Graphics();
-        this.hitbox.beginFill(0xFF0000, 0.5);
-        this.hitbox.drawRect(0,0,143,150);
+        this.hitbox.beginFill(0x000000, 0.000001);
+        this.hitbox.drawRect(0,0,142,150);
         this.hitbox.endFill();
         this.hitbox.position.set(20,15);
 

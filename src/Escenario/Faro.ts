@@ -13,7 +13,7 @@ export class Faro extends Container implements Hitbox{
         this.faro.rotation = 0.04;
 
         this.hitbox = new Graphics();
-        this.hitbox.beginFill(0xFF0000, 0.5);
+        this.hitbox.beginFill(0x000000, 0.000001);
         this.hitbox.drawRect(0,0,50,40);
         this.hitbox.endFill();
         this.hitbox.position.set(280,770);
