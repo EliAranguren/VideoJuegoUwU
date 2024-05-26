@@ -1,5 +1,4 @@
 import { Container, Texture, TilingSprite } from "pixi.js";
-import { sound } from "@pixi/sound";
 
 export class ParqueDiversiones extends Container{
 	
@@ -18,6 +17,5 @@ export class ParqueDiversiones extends Container{
 		cerca.scale.set (0.671);
 
 		this.addChild(piso,fondo,cerca);
-		sound.play("Circus", {loop:true, volume:0.2});
     }
 }
