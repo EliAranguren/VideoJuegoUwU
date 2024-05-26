@@ -9,13 +9,19 @@ export class Puntero extends Fisica implements Hitbox {
     constructor(){
         super();
 
-        this.mirilla.lineStyle(2, 0xFF0000); // Línea roja de grosor 2
-        this.mirilla.drawCircle(0, 0, 20); // Círculo con radio 20
+        this.mirilla.lineStyle(2, 0xFF0000); // linea roja de grosor 2
+        this.mirilla.drawCircle(0, 0, 20); // circulo con radio 20
+        this.mirilla.drawCircle(0, 0, 15);
     
-        this.mirilla.moveTo(-10, -10);// Dibujar la "X"
-        this.mirilla.lineTo(10, 10);
-        this.mirilla.moveTo(10, -10);
-        this.mirilla.lineTo(-10, 10);
+        this.mirilla.moveTo(-7, -7);//Dibujar la "X"
+        this.mirilla.lineTo(7, 7);
+        this.mirilla.moveTo(7, -7);
+        this.mirilla.lineTo(-7, 7);
+
+        this.mirilla.moveTo(0, -30);//dibujar la cruz
+        this.mirilla.lineTo(0, 30);
+        this.mirilla.moveTo(-30, 0);
+        this.mirilla.lineTo(30, 0);
     
         this.mirilla.pivot.set(0, 0); // Hacer que el punto de referencia de la mirilla sea el centro del círculo
     

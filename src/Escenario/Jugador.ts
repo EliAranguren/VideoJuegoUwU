@@ -19,7 +19,7 @@ export class Jugador extends EscenaAbstracta implements Actualizable {
     private luces: Faro[] = []; //como voy a hacer varios de estos 3
     private tiendas: Casetas[] = []; //me conviene crear un string
     private basuras: Escondite[] = [];
-    private static velmov = 20; //velocidad de movimiento del prota
+    private static velmov = 5; //velocidad de movimiento del prota
     private static limiteMundo = 6; //ponele que son la cantidad de "pantallas" que puse
 
     constructor() {

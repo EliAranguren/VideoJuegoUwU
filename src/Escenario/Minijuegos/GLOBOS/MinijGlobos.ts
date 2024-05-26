@@ -1,16 +1,18 @@
 import { Container } from "pixi.js";
-import { EscenaAbstracta } from "../../Utilidades/EscenaAbstracta";
-import { Actualizable } from "../../Utilidades/Actualizable";
-import { Carpa } from "./Carpa";
+import { EscenaAbstracta } from "../../../Utilidades/EscenaAbstracta";
+import { Actualizable } from "../../../Utilidades/Actualizable";
+import { Teclado } from "../../../Utilidades/Teclado";
+import { ManagerEscenas } from "../../../Utilidades/ManagerEscenas";
+import { colision } from "../../../Juego/Hitbox";
 import { Globos } from "./Globos";
-import { Teclado } from "../../Utilidades/Teclado";
-import { ManagerEscenas } from "../../Utilidades/ManagerEscenas";
-import { colision } from "../../Juego/Hitbox";
-import { Puntero } from "./Puntero";
 import { Pelota } from "./Pelota";
+import { Carpa } from "../Carpa";
+import { Puntero } from "../Puntero";
 
 export class MinijGlobos extends EscenaAbstracta implements Actualizable {
     public override actualizar(): void {}
+
+    private espacioPres = false; //pa controlar el estado de la tecla espacio porque borra to
 
     private punto: Puntero;
 
@@ -27,7 +29,7 @@ export class MinijGlobos extends EscenaAbstracta implements Actualizable {
         { x: 0, y: 130 } // pabajo
     ];
     private tiempoMovimiento = 0; //este es para ir comparando con el de abajo, lo reseteo cuando coinciden
-    private readonly intervaloMovimiento = 2000; //segundos en milisegundos
+    private readonly intervaloMovimiento = 1000; //segundos en milisegundos
     private readonly limitesMovimiento = { xMin: 0, xMax: 0, yMin: 0, yMax: 0 };
 
     constructor() {
@@ -56,7 +58,7 @@ export class MinijGlobos extends EscenaAbstracta implements Actualizable {
             }
         }
 
-        for (let i=0; i<MinijGlobos.cantPinchos; i++){
+        for (let i=0; i<MinijGlobos.cantPinchos; i++){ //creo los sprites de pinchos
             const pincho = new Pelota();
             pincho.position.x = 110 * i;
 
@@ -80,7 +82,6 @@ export class MinijGlobos extends EscenaAbstracta implements Actualizable {
         } else {
             this.punto.velocidad.x = 0;
         }
-
         if (Teclado.state.get("ArrowUp")) {
             this.punto.velocidad.y = -MinijGlobos.velmov;
         } else if (Teclado.state.get("ArrowDown")) {
@@ -92,17 +93,23 @@ export class MinijGlobos extends EscenaAbstracta implements Actualizable {
         this.punto.x = Math.max(0, Math.min(this.punto.x, MinijGlobos.limiteMundo * ManagerEscenas.Ancho));
         this.punto.y = Math.max(0, Math.min(this.punto.y, ManagerEscenas.Alto));
 
-        const objetosColisionables = [...this.globos];
+        const objetosColisionables = [...this.globos]; //array de globos para analizar
 
         for (const objeto of objetosColisionables) {
             const colisionObjeto = colision(this.punto, objeto);
-            if (colisionObjeto && Teclado.state.get("Space") /*&& MinijGlobos.cantPinchos>0*/) { //seria el disparo piu piu
+            if (colisionObjeto && Teclado.state.get("Space") && MinijGlobos.cantPinchos>0 && this.espacioPres == false) { 
+                //seria el disparo piu piu pero solo si hay pelotas y SI SE DEJO DE APRETAR EL ESPACIO
                 this.eliminarGlobo(objeto);
             }
         }
 
-        if (Teclado.state.get("Space")){
-            this.removerPincho();
+        if (Teclado.state.get("Space")) {
+            if (!this.espacioPres) {
+                this.removerPincho();
+                this.espacioPres = true; //tecla presionada
+            }
+        } else {
+            this.espacioPres = false; //resetear el estado de la tecla
         }
 
         this.tiempoMovimiento += variaciontiempo;

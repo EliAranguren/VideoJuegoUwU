@@ -1,19 +1,19 @@
 import { Loader, Ticker} from 'pixi.js'; //importa esas librerias: application nos da el stage, y sprite es una imagen
 import { assets } from './assets';
 import { ManagerEscenas } from './Utilidades/ManagerEscenas';
-import { MinijGlobos } from './Escenario/Minijuegos/MinijGlobos';
+import { Jugador } from './Escenario/Jugador';
 
 Loader.shared.add(assets);
 
 Loader.shared.onComplete.add(()=>{ //en esta funcion podemos agregar texto
 	ManagerEscenas.iniciado();
 
-	//const pruebaJuego = new Jugador();
-	const menusito = new MinijGlobos();
+	const pruebaJuego = new Jugador();
+	//const menusito = new MinijGlobos();
 
-	ManagerEscenas.cambiarEscena(menusito); // Empezar mostrando el menú
+	ManagerEscenas.cambiarEscena(pruebaJuego); // Empezar mostrando el menú
 	Ticker.shared.add(function(variacionframes){ 
-		menusito.update(Ticker.shared.deltaMS, variacionframes);
+		pruebaJuego.update(Ticker.shared.deltaMS, variacionframes);
 	})
 
 /*    setTimeout(() => {

@@ -5,7 +5,6 @@ import { Hitbox } from "../Juego/Hitbox";
 export class Prota extends Fisica implements Hitbox {
 
     private susanimado: AnimatedSprite;
-    //private static readonly GRAVEDAD = 0;
     private hitbox: Graphics;
 
     constructor(){
@@ -22,17 +21,16 @@ export class Prota extends Fisica implements Hitbox {
         );
 
         this.susanimado.play(); //RECORDAR METERLE PLAY
-        this.susanimado.animationSpeed = 0.1;
+        this.susanimado.animationSpeed = 0.15;
         this.susanimado.anchor.set(0.5,1);
         this.susanimado.scale.set(0.55);
 
         this.velocidad.x = 0;
         this.velocidad.y = 0;
-        //this.aceleracion.y = Prota.GRAVEDAD;
-        //this.susanimado.tint = 0x909090;
+        this.susanimado.tint = 0x909090;
 
         this.hitbox = new Graphics();
-        this.hitbox.beginFill(0x000000, 0.000001);
+        this.hitbox.beginFill(0x0000FF, 0.000001);
         this.hitbox.drawRect(0,0,220,50);
         this.hitbox.endFill();
         this.hitbox.position.set(-90,-60);
@@ -51,8 +49,7 @@ export class Prota extends Fisica implements Hitbox {
                 this.x += sobreposicion.width; //limita derecha si es +, izquierda si es -
             } else if (this.x < objeto.x){
                 this.x -= sobreposicion.width; // se supone que limita izquierda
-            }
-                
+            }               
         } else {
             if (this.y > objeto.y){
                 this.y += sobreposicion.height; //si es - limita arriba, si es + limita abajo

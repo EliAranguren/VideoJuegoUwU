@@ -1,5 +1,5 @@
 import { Sprite } from "pixi.js";
-import { Fisica } from "../../Juego/Fisica";
+import { Fisica } from "../../../Juego/Fisica";
 
 export class Pelota extends Fisica {
     private pelota: Sprite = Sprite.from("pinchuda");

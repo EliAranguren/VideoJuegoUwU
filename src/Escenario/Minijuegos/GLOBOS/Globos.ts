@@ -1,12 +1,10 @@
 import { Graphics, Rectangle, Sprite } from "pixi.js";
-import { Fisica } from "../../Juego/Fisica";
-import { Hitbox } from "../../Juego/Hitbox";
+import { Fisica } from "../../../Juego/Fisica";
+import { Hitbox } from "../../../Juego/Hitbox";
 
 export class Globos extends Fisica implements Hitbox {
     hitbox: any;
     private gl1: Sprite = Sprite.from("globo1");
-    //private gl2: Sprite = Sprite.from("globo2");
-    //private gl3: Sprite = Sprite.from("globo3");
 
     constructor(){
         super();
