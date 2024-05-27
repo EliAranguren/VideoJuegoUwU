@@ -1,34 +1,31 @@
 import { Loader, Ticker} from 'pixi.js'; //importa esas librerias: application nos da el stage, y sprite es una imagen
 import { assets } from './assets';
 import { ManagerEscenas } from './Utilidades/ManagerEscenas';
-import { Jugador } from './Escenario/Jugador';
+import { Historia } from './Escenario/Introduccion/Historia';
 
 Loader.shared.add(assets);
 
 Loader.shared.onComplete.add(()=>{ //en esta funcion podemos agregar texto
 	ManagerEscenas.iniciado();
 
-	const pruebaJuego = new Jugador();
-	//const menusito = new MinijGlobos();
+	//const pruebaJuego = new Jugador();
+	const menusito = new Historia();
 
-	ManagerEscenas.cambiarEscena(pruebaJuego); // Empezar mostrando el menú
+	ManagerEscenas.cambiarEscena(menusito); // Empezar mostrando el menú
 	Ticker.shared.add(function(variacionframes){ 
-		pruebaJuego.update(Ticker.shared.deltaMS, variacionframes);
+		menusito.update(Ticker.shared.deltaMS, variacionframes);
 	})
+	
+    //sound.play("Circus", {loop:true, volume:0.1});
+	//sound.play("Multitud", {loop:true, volume:0.1});
 
-/*    setTimeout(() => {
+	/*    setTimeout(() => {
         ManagerEscenas.cambiarEscena(pruebaJuego);
 		Ticker.shared.add(function(variacionframes){ 
 			pruebaJuego.update(Ticker.shared.deltaMS, variacionframes);
 		})
-		//sound.play("Circus", {loop:true, volume:0.05});
-		//sound.play("Multitud", {loop:true, volume:0.05});
+
     }, 5000); // Cambiar escena después de 5 segundos
-
-
-			Ticker.shared.add(function(variacionframes){ 
-				menusito.update(Ticker.shared.deltaMS, variacionframes);
-			})
 
 	ManagerEscenas.cambiarEscena(pruebaJuego);
 

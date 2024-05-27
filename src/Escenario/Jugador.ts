@@ -90,6 +90,7 @@ export class Jugador extends EscenaAbstracta implements Actualizable {
 
         for (const objeto of objetosColisionables) { //for de colisiones del prota con los objetos
             const colisionObjeto = colision(this.protagonista, objeto);
+
             if (colisionObjeto) {
                 this.protagonista.separar(colisionObjeto, objeto.position);
             }
@@ -111,4 +112,3 @@ export class Jugador extends EscenaAbstracta implements Actualizable {
         }
     }
 }
-

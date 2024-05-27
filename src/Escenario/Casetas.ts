@@ -5,7 +5,7 @@ import { Interaccion } from "./Interaccion";
 export class Casetas extends Container implements Hitbox{
     private caseta: Sprite = Sprite.from("tienda");
     hitbox:Graphics;
-    private aura = new Interaccion();
+    public aura = new Interaccion();
 
     constructor(){
         super();
@@ -13,10 +13,11 @@ export class Casetas extends Container implements Hitbox{
         this.caseta.position.set (10,230);
 		this.caseta.scale.set (0.6,0.6);
 
+        this.aura = new Interaccion();
         this.aura.position.set (50,150);
 
         this.hitbox = new Graphics();
-        this.hitbox.beginFill(0x000000, 0.000001);
+        this.hitbox.beginFill(0x00FF00, 0.000001);
         this.hitbox.drawRect(0,0,430,170);
         this.hitbox.endFill();
         this.hitbox.position.set(425,530);

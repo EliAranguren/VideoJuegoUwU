@@ -10,7 +10,18 @@ export const assets = [
 {url:"./Escenas/escondite vacio.png", name: "basura"},
 {url:"./Escenas/escondido.png", name: "escondido"},
 {url:"./Escenas/cerca parque de diversiones.png", name: "cerca"},
-{url:"./Escenas/lluvia y viento.jpg", name: "inicio1"},
+
+{url:"./Escenas/lluvia y viento.jpg", name: "inicio1.1"},
+{url:"./Escenas/lluvia.jpg", name: "inicio1.2"},
+{url:"./Escenas/trueno.jpg", name: "inicio1.3"},
+{url:"./Escenas/Inicio 2.jpg", name: "inicio2"},
+{url:"./Escenas/Inicio 3.jpg", name: "inicio3"},
+{url:"./Escenas/Inicio 4.jpg", name: "inicio4"},
+{url:"./Escenas/Pesadilla 1.jpg", name: "pesadilla1"},
+{url:"./Escenas/Pesadilla 2.jpg", name: "pesadilla2"},
+{url:"./Escenas/Pesadilla 3.jpg", name: "pesadilla3"},
+{url:"./Escenas/Pesadilla 4.jpg", name: "pesadilla4"},
+
 {url:"./Escenas/Faro.png", name: "luz"},
 {url:"./Escenas/spacebar.png", name: "space"},
 

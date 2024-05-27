@@ -18,7 +18,7 @@ export class Interaccion extends Container implements Hitbox{
         this.hitbox.endFill();
         this.hitbox.position.set(-720,1500);
 
-        this.espacio.addChild(this.hitbox);
+        this.addChild(this.hitbox);
         this.addChild(this.espacio);
     }
 

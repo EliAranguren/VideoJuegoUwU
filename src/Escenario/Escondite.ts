@@ -5,7 +5,7 @@ import { Interaccion } from "./Interaccion";
 export class Escondite extends Container implements Hitbox{
     hitbox: Graphics;
     private escondite: Sprite = Sprite.from("basura");
-    private aura = new Interaccion();
+    public aura = new Interaccion();
 
     constructor(){
         super();
