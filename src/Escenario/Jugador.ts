@@ -1,4 +1,4 @@
-import { Container } from "pixi.js";
+import { Container, Graphics, Text, TextStyle} from "pixi.js";
 import { Actualizable } from "../Utilidades/Actualizable";
 import { Prota } from "./Prota";
 import { Teclado } from "../Utilidades/Teclado";
@@ -54,6 +54,31 @@ export class Jugador extends EscenaAbstracta implements Actualizable {
             this.basuras.push(basura);
             this.Mundo.addChild(basura);
         }
+
+        const indicaciones = new Graphics();
+        indicaciones.beginFill(0xFFFFFF, 0.3);
+        indicaciones.drawRect(0,0,400,100);
+        indicaciones.endFill();
+        indicaciones.position.set(20,20);
+
+        const estiloTexto = new TextStyle({
+            fontFamily: "Arial",
+            fontSize: 15,
+            fill: "black"
+        });
+        const textoMerequetengue = new Text("--> Use las flechas para moverse. <--", estiloTexto);
+        textoMerequetengue.position.set(30, 30);
+
+        const textoMerequetengue1 = new Text("Recuerde que ya no puede volver.", estiloTexto);
+        textoMerequetengue1.position.set(30, 45);
+        const textoMerequetengue2 = new Text("Presione I para la intro; G para el minijuego de los globos;", estiloTexto);
+        textoMerequetengue2.position.set(30, 60);
+        const textoMerequetengue3 = new Text("y V para el minijuego de los vasos.", estiloTexto);
+        textoMerequetengue3.position.set(30, 75);
+        const textoMerequetengue4 = new Text("¡Disfrute del paisaje! es lo que hay para ver por ahora.", estiloTexto);
+        textoMerequetengue4.position.set(30, 90);
+
+        this.Mundo.addChild(indicaciones,textoMerequetengue,textoMerequetengue1,textoMerequetengue2,textoMerequetengue3,textoMerequetengue4);
 
         this.Mundo.addChild(this.protagonista);
     }

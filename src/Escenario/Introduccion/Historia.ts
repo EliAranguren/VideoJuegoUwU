@@ -13,10 +13,10 @@ import { Intro5 } from "./Intro5";
 
 export class Historia extends EscenaAbstracta implements Actualizable{
     fondo1: Intro1;
-    fondo2: any;
-    fondo3: any;
-    fondo4: any;
-    fondo5: any;
+    fondo2: Intro2;
+    fondo3: Intro3;
+    fondo4: Intro4;
+    fondo5: Intro5;
     public override actualizar(): void {}
 
     dial: Dialogo1;
@@ -104,6 +104,8 @@ export class Historia extends EscenaAbstracta implements Actualizable{
             } else if (!this.espacioPres && Historia.contadorEscena === 6 ) {
                 this.espacioPres = true; // tecla presionada
 
+                this.dial.actualizarDialogo();
+                this.Mundo.addChild(this.cuadro,this.dial);
             }
 
         } else {
@@ -116,7 +118,7 @@ export class Historia extends EscenaAbstracta implements Actualizable{
             if (this.fondo5.position.x < - 200) {
                 this.acercarse = false;
                 Historia.contadorEscena++;
-                this.Mundo.removeChild(this.fondo5);    
+                this.Mundo.removeChild(this.fondo5);                  
             }
         }
     }

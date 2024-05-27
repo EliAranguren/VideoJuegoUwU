@@ -1,4 +1,4 @@
-import { Container } from "pixi.js";
+import { Container,Graphics,Text, TextStyle } from "pixi.js";
 import { Actualizable } from "../../../Utilidades/Actualizable";
 import { EscenaAbstracta } from "../../../Utilidades/EscenaAbstracta"
 import { Puntero } from "../Puntero";
@@ -51,6 +51,32 @@ export class MinijVasos extends EscenaAbstracta implements Actualizable {
         }
 
         this.Mundo.addChild(this.vas1,this.vas2,this.vas3,this.punto);
+
+        const estiloTexto = new TextStyle({
+            fontFamily: "Arial",
+            fontSize: 15,
+            fill: "black"
+        });
+
+        const indicaciones = new Graphics();
+        indicaciones.beginFill(0xFFFFFF, 0.3);
+        indicaciones.drawRect(0,0,400,100);
+        indicaciones.endFill();
+        indicaciones.position.set(20,20);
+
+        const textoMerequetengue = new Text("--> Use las flechas para moverse y Espacio para disparar. <--", estiloTexto);
+        textoMerequetengue.position.set(30, 30);
+
+        const textoMerequetengue1 = new Text("Recuerde que ya no puede volver.", estiloTexto);
+        textoMerequetengue1.position.set(30, 45);
+        const textoMerequetengue2 = new Text("Presione I para la intro; P para pasear por el parque;", estiloTexto);
+        textoMerequetengue2.position.set(30, 60);
+        const textoMerequetengue3 = new Text("y G para el minijuego de los globos.", estiloTexto);
+        textoMerequetengue3.position.set(30, 75);
+        const textoMerequetengue4 = new Text("¡Dispare a la base de las torres! Tiene tiros limitados.", estiloTexto);
+        textoMerequetengue4.position.set(30, 90);
+
+        this.Mundo.addChild(indicaciones,textoMerequetengue,textoMerequetengue1,textoMerequetengue2,textoMerequetengue3,textoMerequetengue4);
     }
 
     public update(variaciontiempo: number, variacionframes: number): void {

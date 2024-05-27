@@ -57,6 +57,7 @@ export namespace ManagerEscenas {
 
     export function cambiarEscena (laNueva:EscenaAbstracta){ 
         if (escenaActual){ //tiene que destruir la escena anterior 
+
             escenaActual.destroy();
         }
         escenaActual = laNueva; //creo una nueva escena que va a pasar a ser la actual

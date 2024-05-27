@@ -1,50 +1,3 @@
-/*import { Container, Text, TextStyle } from "pixi.js";
-
-export class Dialogo1 extends Container {
-    indiceDialogo: number; // Añade la propiedad indiceDialogo
-    d1:string[];
-
-    constructor() {
-        super();
-
-        this.indiceDialogo = 0; // Inicializa el índice del diálogo
-
-        const estilo = new TextStyle({
-            fontFamily: "Comic Sans MS",
-            fontSize: 30,
-            fontStyle: "italic",
-            fontWeight: "bold",
-            lineJoin: "round",
-            stroke: "#ffffff",
-            strokeThickness: 2
-        });
-
-        this.d1 = [`Y bueno...
-En estas situaciones no queda otra que reirse un rato jaja
-Encima hacer mucho frio, asi que de alguna manera tengo que entrar en 
-calor
-        `,
-            `Este hermoso clima me lo recuerda, aquella historia paso justo en un dia
-como hoy...
-¿Como era que decia?`,
-        ];
-
-        const dialogos = new Text(this.d1[this.indiceDialogo], estilo);
-
-        dialogos.position.set(100, 500);
-        this.addChild(dialogos);
-    }
-
-    actualizarDialogo(): void {
-        if (this.indiceDialogo < this.d1.length - 1) {
-            this.indiceDialogo++;
-            const texto = this.getChildAt(0) as Text; 
-            texto.text = this.d1[this.indiceDialogo];
-            console.log("Cambio");
-        } 
-    }
-}*/
-
 import { Container, Text, TextStyle } from "pixi.js";
 
 export class Dialogo1 extends Container {
@@ -59,7 +12,8 @@ export class Dialogo1 extends Container {
         this.d1 = [
             `Y bueno...
 En estas situaciones no queda otra que reirse un rato...
-¡Oh bello INTERNET! ¿Que clase de memes me preparaste hoy?`, "...",
+¡Oh bello INTERNET! ¿Que clase de memes me preparaste hoy?
+(Presione Espacio cuando quiera continuar)`, "...",
 `Jaja los gatitos y la estupidez humana no desepcionan.
 Hablando de estupidez humana...`,
 `Este hermoso clima me lo recuerda, aquella historia empezo justo en 
@@ -108,10 +62,14 @@ queda otra que obligarse a dormir. `,
 `Reza a Dios poder pasar la noche y que mañana este todo mejor, a parte, 
 si ya llego hasta aca con ese dolor de mierda en la boca, ¿Por que no
 llegar un dia mas? A este punto es obvio el auto-engaño que se impone, 
-pero no piensa solucionarlo.`
+pero no piensa solucionarlo.`,
 //////////////////////////////////////////////////////// 20
-//////////////////////////////////////////////////////////// ENTRA INTRO5 ///////////////////////
-
+//////////////////////////////////////////////////////////// ENTRA OTRA COSA ///////////////////////
+`YA NO SE PUEDE VOLVER AL MENU, por favor presione:
+P. Para ver el Parque.
+G. Para ir al minijuego de Globos.
+V. Para ir al minijeugo de Vasos.
+`
         ];
 
         const estilo = new TextStyle({
