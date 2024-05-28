@@ -8,6 +8,13 @@ import { MinijGlobos } from './Escenario/Minijuegos/GLOBOS/MinijGlobos';
 import { Historia } from './Escenario/Introduccion/Historia';
 import { sound } from '@pixi/sound';
 
+/*Querido/s profe/s del curso, si ven esto les recomendaria tomarse descansos cada tanto porque
+mis codigos suelen ser bastante caoticos para los demas, todo nace de que al querer separar 
+las cosas me pierdo sola, no las encuentro y encima me cuesta llamarlas y hacer funcionar todo;
+en lo personal es mas simple meter a la jirafa, el elefante y el rinoceronte todos juntos en
+la heladera antes de tener que estar sacandolos para que entre el otro, y eso es algo que van
+a ver mucho aca jajaja suerte :)*/ 
+
 let spacebarPressed = false;
 let numOnePressed = false;
 let numTwoPressed = false;

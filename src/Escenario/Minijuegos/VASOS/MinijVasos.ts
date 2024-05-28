@@ -1,6 +1,6 @@
-import { Container,Graphics,Text, TextStyle } from "pixi.js";
+import { Container, Text, TextStyle } from "pixi.js";
 import { Actualizable } from "../../../Utilidades/Actualizable";
-import { EscenaAbstracta } from "../../../Utilidades/EscenaAbstracta"
+import { EscenaAbstracta } from "../../../Utilidades/EscenaAbstracta";
 import { Puntero } from "../Puntero";
 import { Vasos1 } from "./Vasos1";
 import { Vasos2 } from "./Vasos2";
@@ -10,25 +10,62 @@ import { Teclado } from "../../../Utilidades/Teclado";
 import { ManagerEscenas } from "../../../Utilidades/ManagerEscenas";
 import { Vasos3 } from "./Vasos3";
 import { colision } from "../../../Juego/Hitbox";
+import { Cuadro } from "../../Introduccion/Cuadro";
 
 export class MinijVasos extends EscenaAbstracta implements Actualizable {
     public override actualizar(): void {}
 
-    private espacioPres = false; //pa controlar el estado de la tecla espacio porque borra to
-    private moverse1: boolean = true; //que porque hice 3?
-    private moverse2: boolean = true; //porque el cerebro ya no funciona y me voy a lo facil
+    private espacioPres = false;
+    private moverse1: boolean = true;
+    private moverse2: boolean = true;
     private moverse3: boolean = true;
 
     private punto: Puntero;
-
     private Mundo: Container;
     private vas1: Vasos1;
     private vas2: Vasos2;
     private vas3: Vasos3;
+    private cuadro: Cuadro;
     private piedras: Piedra[] = [];
     private static velmov = 8;
     private static limiteMundo = 1;
     private static cantPiedras = 5;
+
+    private dialogos: string[] = [ 
+        `¡Bienvenido al minijuego de los vasos, querido cliente!
+¡El juego es muy simple! Te voy a explicar las reglas.
+(Presione espacio para continuar)`,
+`Utiliza las flechas del teclado para apuntar y espacio para tirar tu piedra.
+¿¡QUE!? ¿¡ME ESTAS DICIENDO RATA POR PONER PIEDRAS EN VEZ DE 
+PELOTAS!? ¡LAS PIEDRAS NO ESTAN AHI PORQUE LAS PELOTAS CUESTAN 
+UN OJO DE LA CARA, PELOTUDO!`,
+`...`,`Perdon, me altere... En realidad puse piedras por una razon muy razonable: 
+todo empezo hace unos dias cuando me di cuenta que mi tienda tenia un juego 
+muy simple y cliche, asi que como buen emprendedor que soy, decidi cambiar 
+las cosas para atraer mas clientela.`,
+`Para agregarle mas dinamismo coloque las torres de vasos en plataformas que se
+mueven constantemente. ¿Como? ¿Que no podes ver las plataformas? ¡pero si 
+estan ahi! Capaz tenes que hacerte una revision de ojos nomas.`,
+`Cuestion, cuando puse a andar mi invento se cayeron todos los vasos a la mierda,
+asi que los tuve que pegar con la gotita entre si.
+Despues de eso iba todo viendo en popa, hasta que unos dias despues vino el 
+patron y me dijo que la gente andaba diciendo que mi juego tenia trampas.`,
+`Y si, me re olvide que las pelotitas eran muy blandas para tirar las torres, ya 
+me parecia raro a mi que mis peluches no se iban mas.`,
+`Pase horas rompiendome la cabeza para ver como chota hacia para que el juego 
+fuera mas facil pero no tanto, hasta que en una vino uno de los mas grandes 
+Ingenieros de Argentina y me dio una piedra, un capo el chabon.
+Lo que si, hay que tirar las piedras bien a la base, porque si no ni se caen.`,
+`Y bueno, hasta aca llegamos, ponete a jugar nomas que me retrasas la fila.
+¡Suerte, pibe! Acordate de apuntar a la base.`
+    ];
+
+    private indiceDialogo = 0;
+    private textoDialogo: Text;
+    private dialogosTerminados = false;
+
+    private ganaste = false;
+    private perdiste = false;
 
     constructor() {
         super();
@@ -38,10 +75,11 @@ export class MinijVasos extends EscenaAbstracta implements Actualizable {
         this.vas1 = new Vasos1();
         this.vas2 = new Vasos2();
         this.vas3 = new Vasos3();
+        this.cuadro =new Cuadro();
 
         this.addChild(this.Mundo);
 
-        for (let i=0; i<MinijVasos.cantPiedras; i++){ //creo los sprites de piedras
+        for (let i = 0; i < MinijVasos.cantPiedras; i++) {
             const piedra = new Piedra();
             piedra.position.x = 110 * i;
 
@@ -50,36 +88,60 @@ export class MinijVasos extends EscenaAbstracta implements Actualizable {
             this.Mundo.addChild(piedra);
         }
 
-        this.Mundo.addChild(this.vas1,this.vas2,this.vas3,this.punto);
+        this.Mundo.addChild(this.vas1, this.vas2, this.vas3, this.punto);
 
-        const estiloTexto = new TextStyle({
-            fontFamily: "Arial",
-            fontSize: 15,
-            fill: "black"
+        const estiloTexto = new TextStyle({ //no se como hacer para llamarlo de dialogos1 pero bueno
+            fill: "#101010",
+            fontFamily: "Comic Sans MS",
+            fontSize: 30,
+            fontStyle: "italic",
+            fontWeight: "bold",
+            lineJoin: "round",
         });
 
-        const indicaciones = new Graphics();
-        indicaciones.beginFill(0xFFFFFF, 0.3);
-        indicaciones.drawRect(0,0,400,100);
-        indicaciones.endFill();
-        indicaciones.position.set(20,20);
+        this.textoDialogo = new Text("", estiloTexto);
+        this.textoDialogo.position.set(60, 520);
+        this.addChild(this.cuadro, this.textoDialogo);
 
-        const textoMerequetengue = new Text("--> Use las flechas para moverse y Espacio para disparar. <--", estiloTexto);
-        textoMerequetengue.position.set(30, 30);
+        this.mostrarDialogo();
+    }
 
-        const textoMerequetengue1 = new Text("Recuerde que ya no puede volver.", estiloTexto);
-        textoMerequetengue1.position.set(30, 45);
-        const textoMerequetengue2 = new Text("Presione I para la intro; P para pasear por el parque;", estiloTexto);
-        textoMerequetengue2.position.set(30, 60);
-        const textoMerequetengue3 = new Text("y G para el minijuego de los globos.", estiloTexto);
-        textoMerequetengue3.position.set(30, 75);
-        const textoMerequetengue4 = new Text("¡Dispare a la base de las torres! Tiene tiros limitados.", estiloTexto);
-        textoMerequetengue4.position.set(30, 90);
+    private mostrarDialogo() {
+        if (this.indiceDialogo < this.dialogos.length) {
+            this.textoDialogo.text = this.dialogos[this.indiceDialogo];
+        } else {
+            this.removeChild(this.textoDialogo);
+            this.removeChild(this.cuadro);
+            this.dialogosTerminados = true;
+        }
+    }
 
-        this.Mundo.addChild(indicaciones,textoMerequetengue,textoMerequetengue1,textoMerequetengue2,textoMerequetengue3,textoMerequetengue4);
+    private Ganaste() {
+        this.textoDialogo.text = "¡GANASTE PIBE! Podes seguir de largo nomas.\nAcordate, G para Globos, P para Parque e I para Intro.\nSi ya estuviste en alguno, no vuelvas porque se rompe todo.";
+        this.addChild(this.cuadro, this.textoDialogo);
+    }
+
+    private Perdiste() { 
+        this.textoDialogo.text = "¡Que macana, perdiste! Ya no tenes mas piedras.\nAcordate, G para Globos, P para Parque e I para Intro.\nSi ya estuviste en alguno, no vuelvas porque se rompe todo.";
+        this.addChild(this.cuadro, this.textoDialogo);
     }
 
     public update(variaciontiempo: number, variacionframes: number): void {
+        if (!this.dialogosTerminados) {
+            if (Teclado.state.get("Space") && !this.espacioPres) {
+                this.indiceDialogo++;
+                this.espacioPres = true;
+                this.mostrarDialogo();
+            } else if (!Teclado.state.get("Space")) {
+                this.espacioPres = false;
+            }
+            return;
+        }
+
+        if (this.ganaste || this.perdiste) { //me recomendaron parar todo asi ya no se sigue actualizando
+            return;
+        }
+
         this.punto.update(variacionframes);
         const Dt = variaciontiempo / 1000;
         this.punto.update(Dt);
@@ -138,12 +200,11 @@ export class MinijVasos extends EscenaAbstracta implements Actualizable {
         this.punto.x = Math.max(0, Math.min(this.punto.x, MinijVasos.limiteMundo * ManagerEscenas.Ancho));
         this.punto.y = Math.max(0, Math.min(this.punto.y, ManagerEscenas.Alto));
 
-        const objetosColisionables = [this.vas3,this.vas2,this.vas1]; //array de vasos para analizar
+        const objetosColisionables = [this.vas3, this.vas2, this.vas1];
 
         for (const objeto of objetosColisionables) {
             const colisionObjeto = colision(this.punto, objeto);
-            if (colisionObjeto && Teclado.state.get("Space") && MinijVasos.cantPiedras>0 && this.espacioPres == false) { 
-                //seria el disparo piu piu pero solo si hay piedras y SI SE DEJO DE APRETAR EL ESPACIO
+            if (colisionObjeto && Teclado.state.get("Space") && MinijVasos.cantPiedras > 0 && this.espacioPres == false) {
                 this.Mundo.removeChild(objeto);
             }
         }
@@ -151,10 +212,22 @@ export class MinijVasos extends EscenaAbstracta implements Actualizable {
         if (Teclado.state.get("Space")) {
             if (!this.espacioPres) {
                 this.removerPiedras();
-                this.espacioPres = true; //tecla presionada
+                this.espacioPres = true;
             }
         } else {
-            this.espacioPres = false; //resetear el estado de la tecla
+            this.espacioPres = false;
+        }
+
+        if (MinijVasos.cantPiedras === 0) {
+            if (this.Mundo.children.includes(this.vas1) || this.Mundo.children.includes(this.vas2) || this.Mundo.children.includes(this.vas3)) {
+                this.perdiste = true;
+                this.Perdiste();
+            }
+        }
+
+        if (this.Mundo.children.indexOf(this.vas1) === -1 && this.Mundo.children.indexOf(this.vas2) === -1 && this.Mundo.children.indexOf(this.vas3) === -1) {
+            this.ganaste = true;
+            this.Ganaste();
         }
     }
 
@@ -162,10 +235,9 @@ export class MinijVasos extends EscenaAbstracta implements Actualizable {
         if (this.piedras.length > 0) {
             const ultimapiedra = this.piedras.pop();
             if (ultimapiedra) {
-                this.Mundo.removeChild(ultimapiedra); //remover el piedra del contenedor
+                this.Mundo.removeChild(ultimapiedra);
                 MinijVasos.cantPiedras -= 1;
             }
         }
     }
 }
-
