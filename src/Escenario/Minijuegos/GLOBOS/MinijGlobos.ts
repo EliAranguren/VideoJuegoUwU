@@ -1,4 +1,4 @@
-import { Container, Graphics, Text, TextStyle } from "pixi.js";
+import { Container, TextStyle, Text } from "pixi.js";
 import { EscenaAbstracta } from "../../../Utilidades/EscenaAbstracta";
 import { Actualizable } from "../../../Utilidades/Actualizable";
 import { Teclado } from "../../../Utilidades/Teclado";
@@ -8,6 +8,8 @@ import { Globos } from "./Globos";
 import { Pelota } from "./Pelota";
 import { Carpa } from "../Carpa";
 import { Puntero } from "../Puntero";
+import { Cuadro } from "../../Introduccion/Cuadro";
+import { Incisivo } from "./Incisivo";
 
 export class MinijGlobos extends EscenaAbstracta implements Actualizable {
     public override actualizar(): void {}
@@ -15,10 +17,12 @@ export class MinijGlobos extends EscenaAbstracta implements Actualizable {
     private espacioPres = false; //pa controlar el estado de la tecla espacio porque borra to
 
     private punto: Puntero;
-
     private Mundo: Container;
     private globos: Globos[] = [];
     private pinchos: Pelota[] = [];
+    private cuadro: Cuadro;
+    private dienteCayendo: Incisivo;
+
     private static velmov = 20;
     private static limiteMundo = 1;
     private static cantPinchos = 5;
@@ -28,15 +32,49 @@ export class MinijGlobos extends EscenaAbstracta implements Actualizable {
         { x: 0, y: -130 }, //parriba
         { x: 0, y: 130 } // pabajo
     ];
+
     private tiempoMovimiento = 0; //este es para ir comparando con el de abajo, lo reseteo cuando coinciden
     private readonly intervaloMovimiento = 1000; //segundos en milisegundos
     private readonly limitesMovimiento = { xMin: 0, xMax: 0, yMin: 0, yMax: 0 };
+
+    private dialogos: string[] = [ 
+        `¡BIENVENIDO A LOS GLOBOS LOCOS! ¡PRESTE ATENCION!
+(Aprete espacio para avanzar)`,
+`El juego es facil y complicado a la vez, usted va a tener estan pelotitas
+pinchudas las cuales tiene que lanzar con mucha fuerza para reventar los
+globos, para agregarle dificultad hice que los paneles de globos se muevan.
+Use las flechas para apuntar y el espacio para disparar.`,
+`¿Como dice? ¿Que como es fisicamente posible que los paneles se 
+teletransportan? No se que me esta contando señor, claramente se estan 
+moviendo respetando todas las leyes de la fisica... ¿No estara usted drogado?`,
+`Ah, si, casi lo olvidaba, el objetivo principal de este juego no es solo darle
+a los globos, ¡Si no que tiene que darle a los globos!`,
+`A los correctos claro, estos contienen sorpresas en su interior que caeran 
+cuando se pinchen... ¿Como? ¿Una pista de cuales son los correctos? ¡Na!
+Seria muy facil ¡Todo el mundo sabe eso! confirmo, usted anda falopeado.`,
+`Su secreto esta a salvo conmigo, la vida es dura y una distraccion de vez en
+cuando no viene mal *guiño, guiño*
+Para reventar los globos solo siga su corazon, estoy seguro de que lo guiara al
+globo correcto.`,
+`Sin mas que decir, lo dejo jugar.
+¡Buena suerte caballero!`
+    ];
+
+    private indiceDialogo = 0;
+    private textoDialogo: Text;
+    private dialogosTerminados = false;
+
+    private ganaste = false;
+    private perdiste = false;
+
 
     constructor() {
         super();
 
         this.Mundo = new Carpa();
         this.punto = new Puntero();
+        this.cuadro = new Cuadro();
+        this.dienteCayendo = new Incisivo();
 
         this.addChild(this.Mundo);
 
@@ -67,36 +105,61 @@ export class MinijGlobos extends EscenaAbstracta implements Actualizable {
             this.Mundo.addChild(pincho);
         }
 
-        this.Mundo.addChild(this.punto);
-
-        const estiloTexto = new TextStyle({
-            fontFamily: "Arial",
-            fontSize: 15,
-            fill: "black"
+        const estiloTexto = new TextStyle({ //no se como hacer para llamarlo de dialogos1 pero bueno
+            fill: "#101010",
+            fontFamily: "Comic Sans MS",
+            fontSize: 30,
+            fontStyle: "italic",
+            fontWeight: "bold",
+            lineJoin: "round",
         });
 
-        const indicaciones = new Graphics();
-        indicaciones.beginFill(0xFFFFFF, 0.3);
-        indicaciones.drawRect(0,0,400,100);
-        indicaciones.endFill();
-        indicaciones.position.set(20,20);
+        this.textoDialogo = new Text("", estiloTexto);
+        this.textoDialogo.position.set(60, 520);
+        this.addChild(this.cuadro, this.textoDialogo);
 
-        const textoMerequetengue = new Text("--> Use las flechas para moverse y Espacio para disparar. <--", estiloTexto);
-        textoMerequetengue.position.set(30, 30);
+        this.mostrarDialogo();
 
-        const textoMerequetengue1 = new Text("Recuerde que ya no puede volver.", estiloTexto);
-        textoMerequetengue1.position.set(30, 45);
-        const textoMerequetengue2 = new Text("Presione I para la intro; P para pasear por el parque;", estiloTexto);
-        textoMerequetengue2.position.set(30, 60);
-        const textoMerequetengue3 = new Text("y V para el minijuego de los vasos.", estiloTexto);
-        textoMerequetengue3.position.set(30, 75);
-        const textoMerequetengue4 = new Text("¡Dispare a los globos! Tiene tiros limitados.", estiloTexto);
-        textoMerequetengue4.position.set(30, 90);
+        this.Mundo.addChild(this.punto);
+    }
 
-        this.Mundo.addChild(indicaciones,textoMerequetengue,textoMerequetengue1,textoMerequetengue2,textoMerequetengue3,textoMerequetengue4);
+    private mostrarDialogo() {
+        if (this.indiceDialogo < this.dialogos.length) {
+            this.textoDialogo.text = this.dialogos[this.indiceDialogo];
+        } else {
+            this.removeChild(this.textoDialogo);
+            this.removeChild(this.cuadro);
+            this.dialogosTerminados = true;
+        }
+    }
+
+    /*private Ganaste() {
+        this.textoDialogo.text = "¡GANASTE PIBE! Podes seguir de largo nomas.\nAcordate, G para Globos, P para Parque e I para Intro.\nSi ya estuviste en alguno, no vuelvas porque se rompe todo.";
+        this.addChild(this.cuadro, this.textoDialogo);
+    }*/
+
+    private Perdiste() { 
+        this.textoDialogo.text = "¡Que macana, perdiste! Ya no tenes mas piedras.\nAcordate, V para Vasos, P para Parque e I para Intro.\nSi ya estuviste en alguno, no vuelvas porque se rompe todo.";
+        this.addChild(this.cuadro, this.textoDialogo);
     }
 
     public update(variaciontiempo: number, variacionframes: number): void {
+
+        if (!this.dialogosTerminados) {
+            if (Teclado.state.get("Space") && !this.espacioPres) {
+                this.indiceDialogo++;
+                this.espacioPres = true;
+                this.mostrarDialogo();
+            } else if (!Teclado.state.get("Space")) {
+                this.espacioPres = false;
+            }
+            return;
+        }
+
+        if (this.ganaste || this.perdiste) { //me recomendaron parar todo asi ya no se sigue actualizando
+            return;
+        }
+
         this.punto.update(variacionframes);
         const Dt = variaciontiempo / 1000;
         this.punto.update(Dt);
@@ -138,6 +201,11 @@ export class MinijGlobos extends EscenaAbstracta implements Actualizable {
             this.espacioPres = false; //resetear el estado de la tecla
         }
 
+        if (MinijGlobos.cantPinchos === 0) {
+            this.perdiste = true;
+            this.Perdiste();
+        }
+
         this.tiempoMovimiento += variaciontiempo;
 
         if (this.tiempoMovimiento >= this.intervaloMovimiento) {
@@ -149,6 +217,11 @@ export class MinijGlobos extends EscenaAbstracta implements Actualizable {
     private eliminarGlobo(globo: Globos) {
         this.Mundo.removeChild(globo); //lo saco del Mundo
         this.globos = this.globos.filter(g => g !== globo); 
+
+        const chance = Math.random();
+        if (chance < 0.5) {  // 50% de probabilidad
+            this.Mundo.addChild(this.dienteCayendo);
+        }
     }
 
     private removerPincho() {
