@@ -9,7 +9,6 @@ import { Pelota } from "./Pelota";
 import { Carpa } from "../Carpa";
 import { Puntero } from "../Puntero";
 import { Cuadro } from "../../Introduccion/Cuadro";
-import { Incisivo } from "./Incisivo";
 
 export class MinijGlobos extends EscenaAbstracta implements Actualizable {
     public override actualizar(): void {}
@@ -21,7 +20,7 @@ export class MinijGlobos extends EscenaAbstracta implements Actualizable {
     private globos: Globos[] = [];
     private pinchos: Pelota[] = [];
     private cuadro: Cuadro;
-    private dienteCayendo: Incisivo;
+    //private dienteCayendo: any;
 
     private static velmov = 20;
     private static limiteMundo = 1;
@@ -61,6 +60,7 @@ globo correcto.`,
     ];
 
     private indiceDialogo = 0;
+    private contador = 0;
     private textoDialogo: Text;
     private dialogosTerminados = false;
 
@@ -74,7 +74,7 @@ globo correcto.`,
         this.Mundo = new Carpa();
         this.punto = new Puntero();
         this.cuadro = new Cuadro();
-        this.dienteCayendo = new Incisivo();
+        //this.dienteCayendo = new Piedra();
 
         this.addChild(this.Mundo);
 
@@ -114,11 +114,14 @@ globo correcto.`,
             lineJoin: "round",
         });
 
-        this.textoDialogo = new Text("", estiloTexto);
-        this.textoDialogo.position.set(60, 520);
+        this.textoDialogo = new Text("", estiloTexto); //no te olvides de nuevo, lo dejaste vacio
+        this.textoDialogo.position.set(60, 520); //para escribirle despues
         this.addChild(this.cuadro, this.textoDialogo);
 
         this.mostrarDialogo();
+
+        //this.dienteCayendo.position.set(300,500);
+        //this.addChild(this.dienteCayendo);
 
         this.Mundo.addChild(this.punto);
     }
@@ -133,13 +136,13 @@ globo correcto.`,
         }
     }
 
-    /*private Ganaste() {
-        this.textoDialogo.text = "¡GANASTE PIBE! Podes seguir de largo nomas.\nAcordate, G para Globos, P para Parque e I para Intro.\nSi ya estuviste en alguno, no vuelvas porque se rompe todo.";
+    private Ganaste() {
+        this.textoDialogo.text = "¡FELICITACIONES! Disfrute su premio, señor.\nRecuerde, G para Globos, P para Parque e I para Intro.\nSi ya estuviste en alguno, no vuelvas porque se rompe todo.";
         this.addChild(this.cuadro, this.textoDialogo);
-    }*/
+    }
 
     private Perdiste() { 
-        this.textoDialogo.text = "¡Que macana, perdiste! Ya no tenes mas piedras.\nAcordate, V para Vasos, P para Parque e I para Intro.\nSi ya estuviste en alguno, no vuelvas porque se rompe todo.";
+        this.textoDialogo.text = "¡Mala suerte! Ya no tenes mas pelotas.\nRecuerde, V para Vasos, P para Parque e I para Intro.\nSi ya estuviste en alguno, no vuelvas porque se rompe todo.";
         this.addChild(this.cuadro, this.textoDialogo);
     }
 
@@ -154,6 +157,11 @@ globo correcto.`,
                 this.espacioPres = false;
             }
             return;
+        }
+
+        if(this.contador===2){
+            this.Ganaste();
+            this.ganaste = true;
         }
 
         if (this.ganaste || this.perdiste) { //me recomendaron parar todo asi ya no se sigue actualizando
@@ -201,7 +209,7 @@ globo correcto.`,
             this.espacioPres = false; //resetear el estado de la tecla
         }
 
-        if (MinijGlobos.cantPinchos === 0) {
+        if (MinijGlobos.cantPinchos === 0 && this.contador<2) {
             this.perdiste = true;
             this.Perdiste();
         }
@@ -219,8 +227,13 @@ globo correcto.`,
         this.globos = this.globos.filter(g => g !== globo); 
 
         const chance = Math.random();
-        if (chance < 0.5) {  // 50% de probabilidad
-            this.Mundo.addChild(this.dienteCayendo);
+        console.log("Reventaste un globo!");
+
+        if (chance < 0.3) { 
+            //this.Mundo.addChild(this.dienteCayendo);
+            //this.dienteCayendo.position.set(globo.position.x, globo.position.y);
+            console.log("Se cayo un diente!");
+            this.contador++;
         }
     }
 
