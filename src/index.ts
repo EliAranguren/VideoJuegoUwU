@@ -6,7 +6,6 @@ import { Menu } from './Menuses/Menu';
 import { MinijVasos } from './Escenario/Minijuegos/VASOS/MinijVasos';
 import { MinijGlobos } from './Escenario/Minijuegos/GLOBOS/MinijGlobos';
 import { Historia } from './Escenario/Introduccion/Historia';
-import { sound } from '@pixi/sound';
 
 /*Querido/s profe/s del curso, si ven esto les recomendaria tomarse descansos cada tanto porque
 mis codigos suelen ser bastante caoticos para los demas, todo nace de que al querer separar 
