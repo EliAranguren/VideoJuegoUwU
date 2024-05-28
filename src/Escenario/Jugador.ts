@@ -1,4 +1,4 @@
-import { Container, Graphics, Text, TextStyle} from "pixi.js";
+import { Container, Text, TextStyle} from "pixi.js";
 import { Actualizable } from "../Utilidades/Actualizable";
 import { Prota } from "./Prota";
 import { Teclado } from "../Utilidades/Teclado";
@@ -9,24 +9,50 @@ import { Escondite } from "./Escondite";
 import { ParqueDiversiones } from "./ParqueDiversiones";
 import { EscenaAbstracta } from "../Utilidades/EscenaAbstracta";
 import { ManagerEscenas } from "../Utilidades/ManagerEscenas";
+import { Cuadro } from "./Introduccion/Cuadro";
 
 export class Jugador extends EscenaAbstracta implements Actualizable {
 
     public override actualizar(): void {}
     
+    private espacioPres = false;
     private protagonista: Prota;
     private Mundo: Container;
     private luces: Faro[] = []; //como voy a hacer varios de estos 3
     private tiendas: Casetas[] = []; //me conviene crear un string
     private basuras: Escondite[] = [];
+    private cuadro: Cuadro;
+    
     private static velmov = 5; //velocidad de movimiento del prota
     private static limiteMundo = 6; //ponele que son la cantidad de "pantallas" que puse
+
+    private dialogos: string[] = [ 
+`Bienvenido al Parque de Diversiones.
+(Presione espacio para avanzar)`,
+`Se supone que estas aca para buscar tus dientes... pero todavia no
+funciona del todo bien xd.`,
+`Por el momento solo podes pasear por el parque y ver el entorno, se supone 
+que las casetas te llevan a los minijuegos y que te podes esconder
+en los tachos de basura, pero es mas complicado de programar de lo que crees.`,
+`¿Que? ¿De que te esconderias? Bueno, eso tampoco esta programado por ahora.`,
+`En fin, usa las flechas para moverte.
+La hitbox de los objetos esta algo rota tambien, ya lo vas a notar.
+¿Por que? No se, pero que no atravesas los objetos ¡No los atravesas!`,
+`Que lo disfrutes. Poder cambiar de entorno cuando quieras.
+Recorda apretar I para la Intro, G para el minijuego de los Globos y V para el
+minijuego de los Vasos.`
+    ];
+
+    private indiceDialogo = 0;
+    private textoDialogo: Text;
+    private dialogosTerminados = false;
 
     constructor() {
         super();
 
         this.Mundo = new ParqueDiversiones();
         this.protagonista = new Prota();
+        this.cuadro = new Cuadro();
 
         this.addChild(this.Mundo);
 
@@ -55,35 +81,47 @@ export class Jugador extends EscenaAbstracta implements Actualizable {
             this.Mundo.addChild(basura);
         }
 
-        const indicaciones = new Graphics();
-        indicaciones.beginFill(0xFFFFFF, 0.3);
-        indicaciones.drawRect(0,0,400,100);
-        indicaciones.endFill();
-        indicaciones.position.set(20,20);
-
-        const estiloTexto = new TextStyle({
-            fontFamily: "Arial",
-            fontSize: 15,
-            fill: "black"
+        const estiloTexto = new TextStyle({ //no se como hacer para llamarlo de dialogos1 pero bueno
+            fill: "#101010",
+            fontFamily: "Comic Sans MS",
+            fontSize: 30,
+            fontStyle: "italic",
+            fontWeight: "bold",
+            lineJoin: "round",
         });
-        const textoMerequetengue = new Text("--> Use las flechas para moverse. <--", estiloTexto);
-        textoMerequetengue.position.set(30, 30);
 
-        const textoMerequetengue1 = new Text("Recuerde que ya no puede volver.", estiloTexto);
-        textoMerequetengue1.position.set(30, 45);
-        const textoMerequetengue2 = new Text("Presione I para la intro; G para el minijuego de los globos;", estiloTexto);
-        textoMerequetengue2.position.set(30, 60);
-        const textoMerequetengue3 = new Text("y V para el minijuego de los vasos.", estiloTexto);
-        textoMerequetengue3.position.set(30, 75);
-        const textoMerequetengue4 = new Text("¡Disfrute del paisaje! es lo que hay para ver por ahora.", estiloTexto);
-        textoMerequetengue4.position.set(30, 90);
+        this.textoDialogo = new Text("", estiloTexto); //no te olvides de nuevo, lo dejaste vacio
+        this.textoDialogo.position.set(60, 520); //para escribirle despues
+        this.addChild(this.cuadro, this.textoDialogo);
 
-        this.Mundo.addChild(indicaciones,textoMerequetengue,textoMerequetengue1,textoMerequetengue2,textoMerequetengue3,textoMerequetengue4);
+        this.mostrarDialogo();
 
         this.Mundo.addChild(this.protagonista);
     }
 
+    private mostrarDialogo() {
+        if (this.indiceDialogo < this.dialogos.length) {
+            this.textoDialogo.text = this.dialogos[this.indiceDialogo];
+        } else {
+            this.removeChild(this.textoDialogo);
+            this.removeChild(this.cuadro);
+            this.dialogosTerminados = true;
+        }
+    }
+
     public update(variaciontiempo: number, variacionframes: number): void {
+
+        if (!this.dialogosTerminados) {
+            if (Teclado.state.get("Space") && !this.espacioPres) {
+                this.indiceDialogo++;
+                this.espacioPres = true;
+                this.mostrarDialogo();
+            } else if (!Teclado.state.get("Space")) {
+                this.espacioPres = false;
+            }
+            return;
+        }
+
         this.protagonista.update(variacionframes);
         const Dt = variaciontiempo / 1000;
         this.protagonista.update(Dt);
