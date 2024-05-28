@@ -52,7 +52,6 @@ Loader.shared.onComplete.add(() => {
     document.addEventListener('keydown', function(event) {
             if (event.code === 'KeyP' && !numOnePressed) {
                 numOnePressed = true;
-				sound.play("Circus", {loop:true, volume:0.5});
 
                 ManagerEscenas.cambiarEscena(jugadorticker);
                 Ticker.shared.add(function(variacionframes) {
