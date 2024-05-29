@@ -1,5 +1,5 @@
 import { Container, Graphics, Rectangle, Sprite } from "pixi.js";
-import { Hitbox } from "../Juego/Hitbox";
+import { Hitbox } from "../../Juego/Hitbox";
 
 export class Interaccion extends Container implements Hitbox{
     hitbox: Graphics;
@@ -10,15 +10,15 @@ export class Interaccion extends Container implements Hitbox{
 
         this.espacio.position.set(520,-50);
         this.espacio.scale.set(0.25);
-        this.espacio.visible = true;
+        this.espacio.visible = false;
 
         this.hitbox = new Graphics();
-        this.hitbox.beginFill(0x00FF00, 0.5);
+        this.hitbox.beginFill(0x00FF00, 0.000001);
         this.hitbox.drawRect(0,0,2000,1000);
         this.hitbox.endFill();
         this.hitbox.position.set(-720,1500);
 
-        this.addChild(this.hitbox);
+        this.espacio.addChild(this.hitbox);
         this.addChild(this.espacio);
     }
 

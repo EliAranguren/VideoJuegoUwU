@@ -1,7 +1,7 @@
 import { Loader, Ticker } from 'pixi.js';
 import { assets } from './assets';
 import { ManagerEscenas } from './Utilidades/ManagerEscenas';
-import { Jugador } from './Escenario/Jugador';
+import { Jugador } from './Escenario/EntornoGral/Jugador';
 import { Menu } from './Menuses/Menu';
 import { MinijVasos } from './Escenario/Minijuegos/VASOS/MinijVasos';
 import { MinijGlobos } from './Escenario/Minijuegos/GLOBOS/MinijGlobos';
@@ -14,67 +14,57 @@ en lo personal es mas simple meter a la jirafa, el elefante y el rinoceronte tod
 la heladera antes de tener que estar sacandolos para que entre el otro, y eso es algo que van
 a ver mucho aca jajaja suerte :)*/ 
 
-let spacebarPressed = false;
-let numOnePressed = false;
-let numTwoPressed = false;
-let numThreePressed = false;
-
 Loader.shared.add(assets);
 
 Loader.shared.onComplete.add(() => {
     ManagerEscenas.iniciado();
 
-    const menusito = new Menu();
-    ManagerEscenas.cambiarEscena(menusito);
-
-    Ticker.shared.add((variacionframes) => {
-        menusito.update(Ticker.shared.deltaMS, variacionframes);
-    });
-
-    const jugadorticker = new Jugador();
-    const vasos = new MinijVasos();
-    const globos = new MinijGlobos();
-    const historia = new Historia();
+    const menu = new Menu();
+    ManagerEscenas.cambiarEscena(menu);
 
     document.addEventListener('keydown', function(event) {
-        if (event.code === 'KeyI' && !spacebarPressed) {
-            if (!spacebarPressed) {
-                spacebarPressed = true;
+        switch (event.code) {
+            case 'KeyI':
+                const historia = new Historia(); //ESTA VERGA NO FUNCIONABA PORQUE SE DESTRUIA 
+                //LA PUTA VARIABLEEE AAAAAAAAAA
                 ManagerEscenas.cambiarEscena(historia);
+
                 Ticker.shared.add(function(variacionframes) {
                     historia.update(Ticker.shared.deltaMS, variacionframes);
                 });
-            }
-        }
-    });
+                break;
 
-    document.addEventListener('keydown', function(event) {
-            if (event.code === 'KeyP' && !numOnePressed) {
-                numOnePressed = true;
-
+            case 'KeyP':
+                const jugadorticker = new Jugador();
                 ManagerEscenas.cambiarEscena(jugadorticker);
+
                 Ticker.shared.add(function(variacionframes) {
                     jugadorticker.update(Ticker.shared.deltaMS, variacionframes);
                 });
 
-            } 
-            if (event.code === 'KeyV' && !numTwoPressed) {
-                numTwoPressed = true;
+                break;
 
+            case 'KeyV':
+                const vasos = new MinijVasos();
                 ManagerEscenas.cambiarEscena(vasos);
+
                 Ticker.shared.add(function(variacionframes) {
                     vasos.update(Ticker.shared.deltaMS, variacionframes);
                 });
-            } 
-            if (event.code === 'KeyG' && !numThreePressed) {
-                numThreePressed = true;
+                break;
 
+            case 'KeyG':
+                const globos = new MinijGlobos();
                 ManagerEscenas.cambiarEscena(globos);
+
                 Ticker.shared.add(function(variacionframes) {
                     globos.update(Ticker.shared.deltaMS, variacionframes);
                 });
-            }
+
+                break;
+        }
     });
+
 
 });
 

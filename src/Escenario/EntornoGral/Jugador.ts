@@ -1,15 +1,15 @@
 import { Container, Text, TextStyle} from "pixi.js";
-import { Actualizable } from "../Utilidades/Actualizable";
-import { Prota } from "./Prota";
-import { Teclado } from "../Utilidades/Teclado";
-import { colision } from "../Juego/Hitbox";
+import { Actualizable } from "../../Utilidades/Actualizable";
+import { Prota } from "../Prota";
+import { Teclado } from "../../Utilidades/Teclado";
+import { colision } from "../../Juego/Hitbox";
+import { EscenaAbstracta } from "../../Utilidades/EscenaAbstracta";
+import { ManagerEscenas } from "../../Utilidades/ManagerEscenas";
+import { Cuadro } from "../Introduccion/Cuadro";
 import { Faro } from "./Faro";
 import { Casetas } from "./Casetas";
 import { Escondite } from "./Escondite";
 import { ParqueDiversiones } from "./ParqueDiversiones";
-import { EscenaAbstracta } from "../Utilidades/EscenaAbstracta";
-import { ManagerEscenas } from "../Utilidades/ManagerEscenas";
-import { Cuadro } from "./Introduccion/Cuadro";
 
 export class Jugador extends EscenaAbstracta implements Actualizable {
 
@@ -17,6 +17,7 @@ export class Jugador extends EscenaAbstracta implements Actualizable {
     
     private espacioPres = false;
     private protagonista: Prota;
+    //private ratoncito: RatonPerez;
     private Mundo: Container;
     private luces: Faro[] = []; //como voy a hacer varios de estos 3
     private tiendas: Casetas[] = []; //me conviene crear un string
@@ -52,6 +53,7 @@ minijuego de los Vasos.`
 
         this.Mundo = new ParqueDiversiones();
         this.protagonista = new Prota();
+        //this.ratoncito = new RatonPerez();
         this.cuadro = new Cuadro();
 
         this.addChild(this.Mundo);
@@ -92,7 +94,7 @@ minijuego de los Vasos.`
 
         this.textoDialogo = new Text("", estiloTexto); //no te olvides de nuevo, lo dejaste vacio
         this.textoDialogo.position.set(60, 520); //para escribirle despues
-        this.addChild(this.cuadro, this.textoDialogo);
+        this.addChild(this.cuadro, this.textoDialogo,);
 
         this.mostrarDialogo();
 
@@ -123,8 +125,8 @@ minijuego de los Vasos.`
         }
 
         this.protagonista.update(variacionframes);
-        const Dt = variaciontiempo / 1000;
-        this.protagonista.update(Dt);
+        const Dt1 = variaciontiempo / 1000;
+        this.protagonista.update(Dt1);
 
         if (Teclado.state.get("ArrowLeft")) { //creo los movimientos de izquierda y derecha
             this.protagonista.velocidad.x = -Jugador.velmov;

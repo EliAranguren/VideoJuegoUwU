@@ -4,6 +4,11 @@ export const assets = [
 {url:"./Twerk/prota3.png", name: "3"},
 {url:"./Twerk/prota4.png", name: "4"},
 
+{url:"./Enemigos/El Raton Perez/r1.png", name: "RP1"},
+{url:"./Enemigos/El Raton Perez/r2.png", name: "RP2"},
+{url:"./Enemigos/El Raton Perez/r3.png", name: "RP3"},
+{url:"./Enemigos/El Raton Perez/r4.png", name: "RP4"},
+
 {url:"./Escenas/fondo parque de diversiones.png", name: "fondo"},
 {url:"./Escenas/piso parque de diversiones.png", name: "piso"},
 {url:"./Escenas/tienda parque de diversiones.png", name: "tienda"},

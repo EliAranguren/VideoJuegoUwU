@@ -1,5 +1,5 @@
 import { Container, Graphics, Rectangle, Sprite } from "pixi.js";
-import { Hitbox } from "../Juego/Hitbox";
+import { Hitbox } from "../../Juego/Hitbox";
 
 export class Faro extends Container implements Hitbox{
     hitbox: any;
