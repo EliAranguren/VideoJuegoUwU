@@ -39,7 +39,7 @@ en los tachos de basura, pero es mas complicado de programar de lo que crees.`,
 `En fin, usa las flechas para moverte.
 La hitbox de los objetos esta algo rota tambien, ya lo vas a notar.
 ¿Por que? No se, pero que no atravesas los objetos ¡No los atravesas!`,
-`Que lo disfrutes. Poder cambiar de entorno cuando quieras.
+`Que lo disfrutes. Podes cambiar de entorno cuando quieras.
 Recorda apretar I para la Intro, G para el minijuego de los Globos y V para el
 minijuego de los Vasos.`
     ];
@@ -112,7 +112,6 @@ minijuego de los Vasos.`
     }
 
     public update(variaciontiempo: number, variacionframes: number): void {
-
         if (!this.dialogosTerminados) {
             if (Teclado.state.get("Space") && !this.espacioPres) {
                 this.indiceDialogo++;
@@ -161,7 +160,7 @@ minijuego de los Vasos.`
             }
         }
 
-        if (this.protagonista.x > ManagerEscenas.Ancho / 2 && this.protagonista.x < ManagerEscenas.Ancho * (Jugador.limiteMundo - 1 / 2)) {
+        if (this.protagonista.x > ManagerEscenas.Ancho / 2 && this.protagonista.x < ManagerEscenas.Ancho * (Jugador.limiteMundo - 1 / 2) && this.protagonista && this.Mundo) {
             // movimientos del mundo con respecto al jugador
             this.Mundo.x = -this.protagonista.x * this.worldTransform.a + ManagerEscenas.Ancho / 2;
         } else if (this.protagonista.x >= ManagerEscenas.Ancho * (Jugador.limiteMundo - 1 / 2)) {

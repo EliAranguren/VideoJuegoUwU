@@ -26,7 +26,7 @@ export class Menu extends EscenaAbstracta implements Actualizable{
         introTexto.y = 100;
         this.addChild(introTexto);
 
-        const pruebaTexto = new Text('P. Prueba de Alpha', estiloTexto);
+        const pruebaTexto = new Text('P. Prueba de Alpha. Parque de Diversiones', estiloTexto);
         pruebaTexto.x = 100;
         pruebaTexto.y = 200;
         this.addChild(pruebaTexto);
@@ -46,7 +46,7 @@ export class Menu extends EscenaAbstracta implements Actualizable{
         salirTexto.y = 500;
         this.addChild(salirTexto);
 
-        const advertencia = new Text('(este juego tiene ERRORES, no puede volver a las categorias si ya entraste una vez)', estiloTexto);
+        const advertencia = new Text('(Este juego tiene algunos errores, espero disfrute la experiencia de todas formas)', estiloTexto);
         advertencia.x = 50;
         advertencia.y = 600;
         this.addChild(advertencia);

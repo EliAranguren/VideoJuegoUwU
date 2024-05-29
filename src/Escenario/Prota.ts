@@ -30,7 +30,7 @@ export class Prota extends Fisica implements Hitbox {
         this.susanimado.tint = 0x909090;
 
         this.hitbox = new Graphics();
-        this.hitbox.beginFill(0x0000FF, 0.1);
+        this.hitbox.beginFill(0x0000FF, 0.000001);
         this.hitbox.drawRect(0,0,220,50);
         this.hitbox.endFill();
         this.hitbox.position.set(-90,-60);

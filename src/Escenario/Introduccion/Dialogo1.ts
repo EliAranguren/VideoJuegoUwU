@@ -27,9 +27,9 @@ un dia como hoy...
 Es una divertida anecdota que tal vez te cuente mas tarde,
 las cosas no salieron como las planee jajaja!`,
 `En fin, antes de comenzar quiero agradecerte por estar aca.
-Vas a encontrar muchos errores a lo largo de esta historia,
-el codigo de mi mente esta muy confuso y no tengo tiempo de
-repararlo un poco mas antes de que lo veas.`,
+Vas a encontrar errores y cosas que no estan a lo largo de 
+esta historia, el codigo de mi mente esta muy confuso y no 
+tengo tiempo de repararlo un poco mas antes de que lo veas.`,
 `Sin embargo, ¡Quiero contarla de todos modos!
 ¡¡¡PRESTA ATENCION!!!`, 
 "Creo que la historia era algo asi...",
@@ -65,7 +65,7 @@ llegar un dia mas? A este punto es obvio el auto-engaño que se impone,
 pero no piensa solucionarlo.`,
 //////////////////////////////////////////////////////// 20
 //////////////////////////////////////////////////////////// ENTRA OTRA COSA ///////////////////////
-`YA NO SE PUEDE VOLVER AL MENU, por favor presione:
+`Por favor presione:
 P. Para ver el Parque.
 G. Para ir al minijuego de Globos.
 V. Para ir al minijeugo de Vasos.

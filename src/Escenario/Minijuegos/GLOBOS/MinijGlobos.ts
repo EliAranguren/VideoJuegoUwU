@@ -137,12 +137,12 @@ globo correcto.`,
     }
 
     private Ganaste() {
-        this.textoDialogo.text = "¡FELICITACIONES! Disfrute su premio, señor.\nRecuerde, G para Globos, P para Parque e I para Intro.\nSi ya estuviste en alguno, no vuelvas porque se rompe todo.";
+        this.textoDialogo.text = "¡FELICITACIONES! Disfrute su premio, señor.\nRecuerde, G para Globos, P para Parque e I para Intro.";
         this.addChild(this.cuadro, this.textoDialogo);
     }
 
     private Perdiste() { 
-        this.textoDialogo.text = "¡Mala suerte! Ya no tenes mas pelotas.\nRecuerde, V para Vasos, P para Parque e I para Intro.\nSi ya estuviste en alguno, no vuelvas porque se rompe todo.";
+        this.textoDialogo.text = "¡Mala suerte! Ya no tenes mas pelotas.\nRecuerde, V para Vasos, P para Parque e I para Intro.";
         this.addChild(this.cuadro, this.textoDialogo);
     }
 

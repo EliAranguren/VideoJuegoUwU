@@ -117,12 +117,12 @@ Lo que si, hay que tirar las piedras bien a la base, porque si no ni se caen.`,
     }
 
     private Ganaste() {
-        this.textoDialogo.text = "¡GANASTE PIBE! Podes seguir de largo nomas.\nAcordate, G para Globos, P para Parque e I para Intro.\nSi ya estuviste en alguno, no vuelvas porque se rompe todo.";
+        this.textoDialogo.text = "¡GANASTE PIBE! Podes seguir de largo nomas.\nAcordate, G para Globos, P para Parque e I para Intro.";
         this.addChild(this.cuadro, this.textoDialogo);
     }
 
     private Perdiste() { 
-        this.textoDialogo.text = "¡Que macana, perdiste! Ya no tenes mas piedras.\nAcordate, G para Globos, P para Parque e I para Intro.\nSi ya estuviste en alguno, no vuelvas porque se rompe todo.";
+        this.textoDialogo.text = "¡Que macana, perdiste! Ya no tenes mas piedras.\nAcordate, G para Globos, P para Parque e I para Intro.";
         this.addChild(this.cuadro, this.textoDialogo);
     }
 
